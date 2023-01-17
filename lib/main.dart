@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/login_page.dart';
-import 'package:fairsite/search/search_page.dart';
+import 'package:fairsite/dashboard/dashboard_page.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 import 'package:fairsite/state/theme_state_notifier.dart';
 import 'package:fairsite/theme.dart';
@@ -87,7 +87,7 @@ class TheAppState extends ConsumerState<TheApp> {
                       // print('onGenerateRoute: ${settings}');
                       if (settings.name == '/' || settings.name == 'search') {
                         return PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => VacanciesPage());
+                            pageBuilder: (_, __, ___) => DashboardPage());
                       } else {
                         //  else if (settings.name == 'lists') {
                         //   return PageRouteBuilder(

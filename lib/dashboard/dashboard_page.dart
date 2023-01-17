@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/app_bar.dart';
 import 'package:fairsite/common.dart';
-import 'package:fairsite/search/search_details.dart';
-import 'package:fairsite/search/search_list.dart';
+import 'package:fairsite/dashboard/company_details.dart';
+import 'package:fairsite/dashboard/companies_list.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 import 'package:fairsite/drawer.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +16,7 @@ final activeBatch =
     StateNotifierProvider<GenericStateNotifier<String?>, String?>(
         (ref) => GenericStateNotifier<String?>(null));
 
-class VacanciesPage extends ConsumerWidget {
+class DashboardPage extends ConsumerWidget {
   final TextEditingController searchCtrl = TextEditingController();
 
   @override
@@ -32,60 +32,60 @@ class VacanciesPage extends ConsumerWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: TextField(
-                          style: Theme.of(context).textTheme.headline3,
-                          onChanged: (v) {},
-                          controller: searchCtrl)),
-                  ElevatedButton(
-                      child: Text(
-                        "Add",
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                      onPressed: () async {
-                        if (searchCtrl.text.isEmpty) return;
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //         child: TextField(
+              //             style: Theme.of(context).textTheme.headline3,
+              //             onChanged: (v) {},
+              //             controller: searchCtrl)),
+              //     ElevatedButton(
+              //         child: Text(
+              //           "Add",
+              //           style: Theme.of(context).textTheme.headline3,
+              //         ),
+              //         onPressed: () async {
+              //           if (searchCtrl.text.isEmpty) return;
 
-                        // var url = Uri.parse(
-                        //     'https://screen-od6zwjoy2a-an.a.run.app/?name=${searchCtrl.text.toLowerCase()}');
-                        // var response = await http.post(url, body: {
-                        //   // 'name': 'doodle',
-                        //   // 'color': 'blue'
-                        // });
-                        // print(
-                        //     'Response status: ${response.statusCode}');
-                        // print('Response body: ${response.body}');
+              //           // var url = Uri.parse(
+              //           //     'https://screen-od6zwjoy2a-an.a.run.app/?name=${searchCtrl.text.toLowerCase()}');
+              //           // var response = await http.post(url, body: {
+              //           //   // 'name': 'doodle',
+              //           //   // 'color': 'blue'
+              //           // });
+              //           // print(
+              //           //     'Response status: ${response.statusCode}');
+              //           // print('Response body: ${response.body}');
 
-                        // FirebaseFirestore.instance
-                        //     .collection('search')
-                        //     .doc(searchCtrl.text)
-                        //     .set({
-                        //   'target': searchCtrl.text,
-                        //   'timeCreated':
-                        //       FieldValue.serverTimestamp(),
-                        //   'author': FirebaseAuth
-                        //       .instance.currentUser!.uid,
-                        // });
+              //           // FirebaseFirestore.instance
+              //           //     .collection('search')
+              //           //     .doc(searchCtrl.text)
+              //           //     .set({
+              //           //   'target': searchCtrl.text,
+              //           //   'timeCreated':
+              //           //       FieldValue.serverTimestamp(),
+              //           //   'author': FirebaseAuth
+              //           //       .instance.currentUser!.uid,
+              //           // });
 
-                        fetchAlbum(searchCtrl.text);
+              //           fetchAlbum(searchCtrl.text);
 
-                        FirebaseFirestore.instance.collection('vacancy')
-                            // .doc(FirebaseAuth
-                            //     .instance.currentUser!.uid)
-                            // .collection('search')
-                            .add({
-                          'url': searchCtrl.text,
-                          'timeCreated': FieldValue.serverTimestamp(),
-                          'author': FirebaseAuth.instance.currentUser!.uid,
-                        });
-                      })
-                ],
-              ),
-              Expanded(child: VacanciesList()),
+              //           FirebaseFirestore.instance.collection('company')
+              //               // .doc(FirebaseAuth
+              //               //     .instance.currentUser!.uid)
+              //               // .collection('search')
+              //               .add({
+              //             'url': searchCtrl.text,
+              //             'timeCreated': FieldValue.serverTimestamp(),
+              //             'author': FirebaseAuth.instance.currentUser!.uid,
+              //           });
+              //         })
+              //   ],
+              // ),
+              Expanded(child: CompaniesList()),
             ],
           )),
     );

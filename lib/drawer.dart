@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fairsite/search/search_page.dart';
+import 'package:fairsite/dashboard/dashboard_page.dart';
 
 class TheDrawer {
   static Widget buildDrawer(BuildContext context) {
@@ -26,7 +26,7 @@ class TheDrawer {
                 Navigator.of(context).pop();
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return VacanciesPage();
+                    return DashboardPage();
                   },
                 ));
               }),

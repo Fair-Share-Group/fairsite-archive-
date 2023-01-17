@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/providers/firestore.dart';
 
-class SearchResults extends ConsumerWidget {
+class CompanyList extends ConsumerWidget {
   final String searchId;
 
-  SearchResults(this.searchId);
+  CompanyList(this.searchId);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Column(

@@ -7,7 +7,7 @@ import 'package:fairsite/common.dart';
 
 class MyAppBar {
   static final List<String> _tabs = [
-    'vacancies',
+    'Dashboard',
     // 'lists',
     // 'pep admin',
     // 'pep library',

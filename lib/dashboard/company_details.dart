@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/providers/firestore.dart';
-import 'package:fairsite/search/search_results.dart';
+import 'package:fairsite/dashboard/company_list.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 
 final activeEntity =
@@ -31,6 +31,6 @@ class SearchDetails extends ConsumerWidget {
                   )),
               child: SingleChildScrollView(
                   child: Column(
-                children: [Text(searchDoc.id), SearchResults(searchDoc.id)],
+                children: [Text(searchDoc.id), CompanyList(searchDoc.id)],
               ))));
 }
