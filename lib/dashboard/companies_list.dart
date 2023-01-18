@@ -20,7 +20,7 @@ class CompaniesList extends ConsumerWidget {
           //   orderBy: 'timeCreated',
           //   isOrderDesc: true,
           //   limit: 100))
-          colSP('vacancy')).when(
+          colSP('company')).when(
           loading: () => [Container()],
           error: (e, s) => [ErrorWidget(e)],
           data: (data) {

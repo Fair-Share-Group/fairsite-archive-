@@ -1,3 +1,4 @@
+import 'package:fairsite/lists/lists_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,9 @@ class TheAppState extends ConsumerState<TheApp> {
                       // print('onGenerateRoute: ${settings}');
                       if (settings.name == '/' || settings.name == 'search') {
                         return PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => DashboardPage());
+                            pageBuilder: (_, __, ___) =>
+                                //DashboardPage()
+                                ListsPage());
                       } else {
                         //  else if (settings.name == 'lists') {
                         //   return PageRouteBuilder(

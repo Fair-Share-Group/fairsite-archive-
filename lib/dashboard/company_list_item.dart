@@ -30,10 +30,10 @@ class CompanyItem extends ConsumerWidget {
                       Flexible(
                           flex: 1,
                           child: Text(
-                            (searchDoc.data()!['positionTitle'] ?? ''),
+                            (searchDoc.data()!['name'] ?? ''),
                             style: Theme.of(context).textTheme.headline3,
                           )),
-                      Flexible(flex: 1, child: Text('Applying...')),
+                      //Flexible(flex: 1, child: Text('Applying...')),
                     ],
                   ),
                   trailing: IconButton(
