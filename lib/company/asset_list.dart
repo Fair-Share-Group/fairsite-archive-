@@ -27,8 +27,12 @@ class AssetListView extends ConsumerWidget {
               data: (entities) => entities.docs
                   .map((entityDoc) => ListTile(
                       title: Text((entityDoc.data()['type'] == null
-                          ? ''
-                          : entityDoc.data()['type'])),
+                              ? ''
+                              : entityDoc.data()['type']) +
+                          ':' +
+                          (entityDoc.data()['url'] == null
+                              ? ''
+                              : entityDoc.data()['url'])),
                       subtitle: Text('s'),
                       isThreeLine: true,
                       onTap: () {
