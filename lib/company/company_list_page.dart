@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/app_bar.dart';
-import 'package:fairsite/lists/lists_list.dart';
-import 'package:fairsite/lists/list_details.dart';
+import 'package:fairsite/company/lists_list.dart';
+import 'package:fairsite/company/company_details.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 import 'package:fairsite/drawer.dart';
 import 'package:fairsite/common.dart';
@@ -17,7 +19,7 @@ final selectedItem =
     StateNotifierProvider<GenericStateNotifier<String?>, String?>(
         (ref) => GenericStateNotifier<String?>(null));
 
-class ListsPage extends ConsumerWidget {
+class CompanyListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -36,12 +38,19 @@ class ListsPage extends ConsumerWidget {
                           child: Column(
                     children: [
                       Lists(),
+                      IconButton(
+                          onPressed: () => {
+                                FirebaseFirestore.instance
+                                    .collection('company')
+                                    .add({'name': 'New company'})
+                              },
+                          icon: Icon(Icons.add))
                     ],
                   ))),
                   Expanded(
                     child: ref.watch(activeList) == null
                         ? Container()
-                        : ListDetails(
+                        : CompanyDetails(
                             ref.watch(activeList)!, selectedItem.notifier),
                   ),
                   Expanded(
@@ -57,10 +66,7 @@ class ListsPage extends ConsumerWidget {
                                   padding: EdgeInsets.all(10),
                                   child: ref.watch(selectedItem) == null
                                       ? Container()
-                                      : Text(ref.watch(selectedItem)!)
-                                  //JsonViewer(ref.watch(selectedItem))
-
-                                  )
+                                      : Text(ref.watch(selectedItem)!))
                             ],
                           ),
                         ))

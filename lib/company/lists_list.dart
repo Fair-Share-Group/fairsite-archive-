@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fairsite/lists/list_list_item.dart';
+import 'package:fairsite/company/list_list_item.dart';
 import 'package:fairsite/providers/firestore.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 

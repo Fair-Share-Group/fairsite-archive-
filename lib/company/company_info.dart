@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:fairsite/controls/doc_field_text_edit.dart';
-import 'package:fairsite/lists/lists_page.dart';
+import 'package:fairsite/company/company_list_page.dart';
 import 'package:fairsite/providers/firestore.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'asset_list.dart';
 
-class ListInfo extends ConsumerWidget {
+class CompanyInfo extends ConsumerWidget {
   final String entityId;
-  const ListInfo(this.entityId);
+  const CompanyInfo(this.entityId);
   @override
   Widget build(BuildContext context, WidgetRef ref) =>
       ref.watch(docSP('company/${entityId}')).when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
-          data: (entityDoc) => Column(children: [
+          data: (companyDoc) => Column(children: [
                 Row(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,9 +24,17 @@ class ListInfo extends ConsumerWidget {
                     children: [
                       Flexible(
                           child: Text(
-                        (entityDoc.data()!['name'] != null)
-                            ? entityDoc.data()!['name']
+                        (companyDoc.data()!['name'] != null)
+                            ? companyDoc.data()!['name']
                             : 'no name',
+                      )),
+                      Flexible(
+                          child: Text(
+                        (companyDoc.data()!['founded'] != null)
+                            ? timeago.format(
+                                (companyDoc.data()!['founded'] as Timestamp)
+                                    .toDate())
+                            : 'no founded date',
                       )),
                       // Flexible(
                       //     child: Text('Last updated: ' +

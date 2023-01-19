@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/providers/firestore.dart';
-import 'package:fairsite/lists/lists_page.dart';
+import 'package:fairsite/company/company_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 

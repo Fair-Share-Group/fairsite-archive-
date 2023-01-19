@@ -1,4 +1,4 @@
-import 'package:fairsite/lists/lists_page.dart';
+import 'package:fairsite/company/company_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +82,7 @@ class TheAppState extends ConsumerState<TheApp> {
               ? LoginPage()
               : DefaultTabController(
                   initialIndex: 0,
-                  length: 5,
+                  length: 1,
                   child: Navigator(
                     onGenerateRoute: (RouteSettings settings) {
                       // print('onGenerateRoute: ${settings}');
@@ -90,7 +90,7 @@ class TheAppState extends ConsumerState<TheApp> {
                         return PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 //DashboardPage()
-                                ListsPage());
+                                CompanyListPage());
                       } else {
                         //  else if (settings.name == 'lists') {
                         //   return PageRouteBuilder(

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/controls/doc_field_text_edit.dart';
-import 'package:fairsite/lists/lists_page.dart';
+import 'package:fairsite/company/company_list_page.dart';
 import 'package:fairsite/providers/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
