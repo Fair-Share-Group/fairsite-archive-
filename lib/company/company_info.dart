@@ -7,16 +7,22 @@ import 'package:fairsite/company/company_list_page.dart';
 import 'package:fairsite/providers/firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'asset_list.dart';
+import 'add_digital_assets.dart';
 
 class CompanyInfo extends ConsumerWidget {
   final String entityId;
   const CompanyInfo(this.entityId);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) =>
       ref.watch(docSP('company/${entityId}')).when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (companyDoc) => Column(children: [
+            // Added the dialog here for testing
+            // Issue with overflow is making the button unclickable
+            // ISSUE #3
+              AddDigitalAssetsDialog(),
                 Row(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,5 +60,8 @@ class CompanyInfo extends ConsumerWidget {
                       //             .format())),
                     ]),
                 AssetListView(entityId),
+
+                // Adding a floating point button to add digital assets for a company
+                
               ]));
 }
