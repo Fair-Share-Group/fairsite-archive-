@@ -21,7 +21,7 @@ class CompanyInfo extends ConsumerWidget {
           data: (companyDoc) => Column(children: [
             // Added the dialog here for testing
             // Issue with overflow is making the button unclickable
-            // ISSUE #3
+            // ISSUE #2
               AddDigitalAssetsDialog(),
                 Row(
                     mainAxisSize: MainAxisSize.max,
