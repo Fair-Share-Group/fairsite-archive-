@@ -6,6 +6,9 @@ import 'package:fairsite/company/company_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 
+import '../asset/linkedin_asset_widget.dart';
+import '../asset/twitter_asset_widget.dart';
+
 class AssetListView extends ConsumerWidget {
   final String entityId;
   // final AlwaysAliveProviderBase<GenericStateNotifier<Map<String, dynamic>?>>
@@ -25,17 +28,11 @@ class AssetListView extends ConsumerWidget {
               loading: () => [],
               error: (e, s) => [ErrorWidget(e)],
               data: (entities) => entities.docs
-                  .map((entityDoc) => ListTile(
-                      title: Text((entityDoc.data()['type'] == null
-                          ? ''
-                          : entityDoc.data()['type'])),
-                      subtitle: Text('s'),
-                      isThreeLine: true,
-                      onTap: () {
-                        // ref.read(selectedItem).value = Map.fromEntries(
-                        //     entity.data().entries.toList()
-                        //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-                      }))
+                  .map((entityDoc) => entityDoc.data()['type'] == 'LinkedIn'
+                      ? LinkedInAssetWidget()
+                      : (entityDoc.data()['type'] == 'Twitter'
+                          ? TwitterAssetWidget()
+                          : Text('no widget')))
                   .toList()))
     ]);
   }
