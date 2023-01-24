@@ -1,3 +1,4 @@
+import 'package:fairsite/asset/facebook_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +33,9 @@ class AssetListView extends ConsumerWidget {
                       ? LinkedInAssetWidget()
                       : (entityDoc.data()['type'] == 'Twitter'
                           ? TwitterAssetWidget()
-                          : Text('no widget')))
+                          : (entityDoc.data()['type'] == 'Facebook'
+                              ? FacebookAssetWidget()
+                              : Text(''))))
                   .toList()))
     ]);
   }
