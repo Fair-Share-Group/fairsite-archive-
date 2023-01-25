@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/company/company_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
@@ -19,10 +20,7 @@ class CompanyInfo extends ConsumerWidget {
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (companyDoc) => Column(children: [
-            // Added the dialog here for testing
-            // Issue with overflow is making the button unclickable
-            // ISSUE #2
-              AddDigitalAssetsDialog(),
+                CompanyLogo(entityId),
                 Row(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,9 +57,13 @@ class CompanyInfo extends ConsumerWidget {
                       //                     .toDate())
                       //             .format())),
                     ]),
+                // Added the dialog here for testing
+                // Issue with overflow is making the button unclickable
+                // ISSUE #2
+                AddDigitalAssetsDialog(),
+
                 AssetListView(entityId),
 
                 // Adding a floating point button to add digital assets for a company
-                
               ]));
 }
