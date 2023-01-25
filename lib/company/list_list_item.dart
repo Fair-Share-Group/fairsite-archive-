@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
+import 'dart:html' as html;
 
 // import '../extensions/string_validations.dart';
 // import '../search/search_details.dart';
@@ -27,6 +28,10 @@ class ListItem extends ConsumerWidget {
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 ListTile(
+                  // HACK: When this is the active route, set a colour
+                  tileColor: html.window.location.href.endsWith("/$entityId")
+                      ? Theme.of(context).colorScheme.secondary
+                      : null,
                   title: Text(
                     (entityDoc.data()!['name'] != null)
                         ? entityDoc.data()!['name']
@@ -45,6 +50,9 @@ class ListItem extends ConsumerWidget {
                           .format()),
                   isThreeLine: true,
                   onTap: () {
+                    // HACK: Set this button to the active route
+                    html.window.history
+                        .pushState(null, "Fair Share Group", '/$entityId');
                     ref.read(activeList.notifier).value = entityId;
                   },
                 ),
