@@ -1,12 +1,11 @@
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> _getTwitterData(String username, List<String> fields) async {
+Future<dynamic> _getTwitterData(String username, List<String> fields) async {
   String apiUrl =
-      "https://api.twitter.com/2/users/by?usernames=${username.toLowerCase()}&user.fields=${fields.join(",")}";
+      "https://api.twitter.com/2/users/by/username/${username.toLowerCase()}?user.fields=${fields.join(",")}";
 
   // Require our own CORS wrapper to use Twitter API directly, along with extra
   // security since this exposes API keys. This is only for development purposes
@@ -18,7 +17,7 @@ Future<String> _getTwitterData(String username, List<String> fields) async {
   final http.Response res = await http.get(
     Uri.parse("$corsWrapperUrl$apiUrl"),
     headers: {
-      'Authorization': 'Bearer YOUR_KEY%3DHERE',
+      'Authorization': 'Bearer KEYHERE',
     },
   );
 
@@ -30,24 +29,26 @@ Future<String> _getTwitterData(String username, List<String> fields) async {
     return "Application is not authenticated";
   }
 
-  return res.body;
+  var body = jsonDecode(res.body);
+
+  return body;
 }
 
 class TwitterAssetWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => ListTile(
-      title: Text('Twitter'),
-      subtitle: Text('s'),
-      isThreeLine: true,
-      trailing: IconButton(
-        icon: Icon(Icons.refresh),
-        onPressed: () {
-          _getTwitterData("google", ["public_metrics", "profile_image_url"]);
-        },
-      ),
-      onTap: () {
-        // ref.read(selectedItem).value = Map.fromEntries(
-        //     entity.data().entries.toList()
-        //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-      });
+        title: Text('Twitter'),
+        subtitle: Text('s'),
+        isThreeLine: true,
+        trailing: IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {
+            _getTwitterData("google", [
+              "public_metrics",
+              "profile_image_url",
+              "created_at"
+            ]).then((value) => print(value));
+          },
+        ),
+      );
 }
