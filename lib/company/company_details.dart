@@ -19,29 +19,29 @@ class CompanyDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Container(
-        decoration: RoundedCornerContainer.containerStyle,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              CompanyInfo(entityId),
-              Divider(),
-              // ListIndexing(entityId),
-              Divider(),
-              //Timeline(entityId),
-              /*Expanded(
-              flex: 10,
-              child: EntityList(entityId),
-            ),*/
-              //DataExportButton(entityId),
-              SingleChildScrollView(
-                child: EntityListView(entityId, selectedItem),
-              ),
-              Divider(),
-              ListCount(entityId),
-            ],
-          ),
-        ),
+      decoration: RoundedCornerContainer.containerStyle,
+      child: CompanyInfo(entityId)
+      // Column(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     mainAxisSize: MainAxisSize.max,
+      //     children: [
+      //       Flexible(flex: 1, child: CompanyInfo(entityId)),
+      //       // Divider(),
+      //       // // ListIndexing(entityId),
+      //       // Divider(),
+      //       // //Timeline(entityId),
+      //       // /*Expanded(
+      //       //   flex: 10,
+      //       //   child: EntityList(entityId),
+      //       // ),*/
+      //       // //DataExportButton(entityId),
+      //       // Expanded(
+      //       //     flex: 10,
+      //       //     child: SingleChildScrollView(
+      //       //       child: EntityListView(entityId, selectedItem),
+      //       //     )),
+      //       // Divider(),
+      //       // ListCount(entityId),
+      //     ])
       );
 }

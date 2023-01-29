@@ -1,3 +1,4 @@
+import 'package:fairsite/asset/facebook_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,20 +21,20 @@ class AssetListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(children: [
-      ListView(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          children: ref.watch(colSP('company/$entityId/asset')).when(
-              loading: () => [],
-              error: (e, s) => [ErrorWidget(e)],
-              data: (entities) => entities.docs
-                  .map((entityDoc) => entityDoc.data()['type'] == 'LinkedIn'
-                      ? LinkedInAssetWidget()
-                      : (entityDoc.data()['type'] == 'Twitter'
-                          ? TwitterAssetWidget()
-                          : Text('no widget')))
-                  .toList()))
-    ]);
+    return ListView(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        children: ref.watch(colSP('company/$entityId/asset')).when(
+            loading: () => [],
+            error: (e, s) => [ErrorWidget(e)],
+            data: (entities) => entities.docs
+                .map((entityDoc) => entityDoc.data()['type'] == 'LinkedIn'
+                    ? LinkedInAssetWidget(entityDoc.reference)
+                    : (entityDoc.data()['type'] == 'Twitter'
+                        ? TwitterAssetWidget()
+                        : (entityDoc.data()['type'] == 'Facebook'
+                            ? FacebookAssetWidget()
+                            : Text(''))))
+                .toList()));
   }
 }
