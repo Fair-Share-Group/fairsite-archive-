@@ -1,3 +1,4 @@
+import 'package:fairsite/member/member_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/company/company_info.dart';
@@ -20,28 +21,11 @@ class CompanyDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => Container(
       decoration: RoundedCornerContainer.containerStyle,
-      child: CompanyInfo(entityId)
-      // Column(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     mainAxisSize: MainAxisSize.max,
-      //     children: [
-      //       Flexible(flex: 1, child: CompanyInfo(entityId)),
-      //       // Divider(),
-      //       // // ListIndexing(entityId),
-      //       // Divider(),
-      //       // //Timeline(entityId),
-      //       // /*Expanded(
-      //       //   flex: 10,
-      //       //   child: EntityList(entityId),
-      //       // ),*/
-      //       // //DataExportButton(entityId),
-      //       // Expanded(
-      //       //     flex: 10,
-      //       //     child: SingleChildScrollView(
-      //       //       child: EntityListView(entityId, selectedItem),
-      //       //     )),
-      //       // Divider(),
-      //       // ListCount(entityId),
-      //     ])
-      );
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Flexible(flex: 1, child: CompanyInfo(entityId)),
+            Flexible(child: MemberArea(entityId)),
+          ]));
 }

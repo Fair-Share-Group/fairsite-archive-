@@ -34,43 +34,45 @@ class CompanyListPage extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
+                      flex: 1,
                       child: SingleChildScrollView(
                           child: Column(
-                    children: [
-                      Lists(),
-                      IconButton(
-                          onPressed: () => {
-                                FirebaseFirestore.instance
-                                    .collection('company')
-                                    .add({'name': 'New company'})
-                              },
-                          icon: Icon(Icons.add))
-                    ],
-                  ))),
+                        children: [
+                          Lists(),
+                          IconButton(
+                              onPressed: () => {
+                                    FirebaseFirestore.instance
+                                        .collection('company')
+                                        .add({'name': 'New company'})
+                                  },
+                              icon: Icon(Icons.add))
+                        ],
+                      ))),
                   Expanded(
+                    flex: 2,
                     child: ref.watch(activeList) == null
                         ? Container()
                         : CompanyDetails(
                             ref.watch(activeList)!, selectedItem.notifier),
                   ),
-                  Expanded(
-                      child: Card(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                        Expanded(
-                            child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: ref.watch(selectedItem) == null
-                                      ? Container()
-                                      : Text(ref.watch(selectedItem)!))
-                            ],
-                          ),
-                        ))
-                      ])))
+                  // Expanded(
+                  //     child: Card(
+                  //         child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //       Expanded(
+                  //           child: SingleChildScrollView(
+                  //         child: Column(
+                  //           children: [
+                  //             Padding(
+                  //                 padding: EdgeInsets.all(10),
+                  //                 child: ref.watch(selectedItem) == null
+                  //                     ? Container()
+                  //                     : Text(ref.watch(selectedItem)!))
+                  //           ],
+                  //         ),
+                  //       ))
+                  //     ])))
                 ])));
   }
 }
