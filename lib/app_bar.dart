@@ -26,7 +26,8 @@ class MyAppBar {
           ? null
           : Padding(
               padding: EdgeInsets.all(10),
-              child: Text(''),
+              child: Text(
+                  'signed in as: ${FirebaseAuth.instance.currentUser!.uid}'),
             ),
       title: (MediaQuery.of(context).size.width < WIDE_SCREEN_WIDTH)
           ? null
