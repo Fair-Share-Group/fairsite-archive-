@@ -44,13 +44,15 @@ List<Jiffy> generateDays(Jiffy start, Jiffy end) {
 }
 
 Future<void> openUrl(String url, BuildContext context) async {
+  url = url.trim();
   if (url.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("No url found for this asset")));
     return;
   }
 
-  // for launchUrl to work properly, urls need to start with http:// or https:// 
+  // for launchUrl to work properly, urls need to start with http:// or https://
+  // otherwise it will be treated as a relative link 
   if (!url.startsWith(RegExp(r"https?://"))) {
     url = "https://$url";
   }
