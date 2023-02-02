@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/firestore.dart';
+import 'package:fairsite/common.dart';
 
 class AdminArea extends ConsumerWidget {
   final String companyId;
@@ -11,12 +12,12 @@ class AdminArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => ref
       .watch(docSP(
-          'company/$companyId/admin/${FirebaseAuth.instance.currentUser!.uid}'))
+          'company/$companyId/admin/${CURRENT_USER.uid}'))
       .when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (adminDoc) => adminDoc.exists
               ? Text('Admin Area')
               : Text(
-                  'uid ${FirebaseAuth.instance.currentUser!.uid} is not an admin of ${companyId}'));
+                  'uid ${CURRENT_USER.uid} is not an admin of ${companyId}'));
 }

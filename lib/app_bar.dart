@@ -15,8 +15,6 @@ class MyAppBar {
     // 'adverse media'
   ];
 
-  static final String userId = FirebaseAuth.instance.currentUser!.uid;
-
   static PreferredSizeWidget getBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       automaticallyImplyLeading:
@@ -31,14 +29,14 @@ class MyAppBar {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
-                    Clipboard.setData(ClipboardData(text: userId)).then((value) {
+                    Clipboard.setData(ClipboardData(text: CURRENT_USER.uid)).then((value) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("$userId copied to clipboard"))
+                        SnackBar(content: Text("${CURRENT_USER.uid} copied to clipboard"))
                       );
                     });
                 },
                 child: Text(
-                  'signed in as: $userId'),
+                  'signed in as: ${CURRENT_USER.uid}'),
               )
                   
             ),

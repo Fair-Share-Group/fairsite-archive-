@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/firestore.dart';
+import 'package:fairsite/common.dart';
+
 
 class MemberArea extends ConsumerWidget {
   final String companyId;
@@ -11,12 +13,12 @@ class MemberArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => ref
       .watch(docSP(
-          'company/$companyId/member/${FirebaseAuth.instance.currentUser!.uid}'))
+          'company/$companyId/member/${CURRENT_USER.uid}'))
       .when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (memberDoc) => memberDoc.exists
               ? Text('member area')
               : Text(
-                  'uid ${FirebaseAuth.instance.currentUser!.uid} is not a member of ${companyId}'));
+                  'uid ${CURRENT_USER.uid} is not a member of ${companyId}'));
 }
