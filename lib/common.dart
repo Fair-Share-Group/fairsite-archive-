@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -39,6 +41,23 @@ List<Jiffy> generateDays(Jiffy start, Jiffy end) {
     current = Jiffy(current).add(days: 1).startOf(Units.DAY);
   }
   return list;
+}
+
+Future<void> openUrl(String url, BuildContext context) async {
+  if (url.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("No url found for this asset")));
+    return;
+  }
+
+  // for launchUrl to work properly, urls need to start with http:// or https:// 
+  if (!url.startsWith(RegExp(r"https?://"))) {
+    url = "https://$url";
+  }
+  if (!await launchUrl(Uri.parse(url))) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Could not open $url")));
+  }
 }
 
 const WIDE_SCREEN_WIDTH = 600;

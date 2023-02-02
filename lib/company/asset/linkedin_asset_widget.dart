@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +45,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
           error: (e, s) => ErrorWidget(e),
           data: (assetDoc) => ListTile(
                 title: Text('LinkedIn - ${assetDoc.data()?["url"]}'),
+                onTap: () => openUrl(assetDoc.data()?["url"], context),
                 subtitle:
                     Text("followers: ${assetDoc.data()?['followers'] ?? ''}"),
                 isThreeLine: true,

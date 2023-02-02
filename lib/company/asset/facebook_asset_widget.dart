@@ -1,10 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
+import 'package:fairsite/providers/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FacebookAssetWidget extends ConsumerWidget {
+  final DocumentReference asset;
+
+  FacebookAssetWidget(this.asset);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ListTile(
-      title: Text('Facebook'),
+  Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
+    loading: () => Container(), 
+    error: (e, s) => ErrorWidget(e), 
+    data: (assetDoc) => ListTile(
+      title: Text('Facebook - ${assetDoc.data()?["url"]}'),
       subtitle: Text(''),
       isThreeLine: true,
       trailing: IconButton(
@@ -13,9 +23,7 @@ class FacebookAssetWidget extends ConsumerWidget {
           //API Call...
         },
       ),
-      onTap: () {
-        // ref.read(selectedItem).value = Map.fromEntries(
-        //     entity.data().entries.toList()
-        //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-      });
+      onTap: () => openUrl(assetDoc.data()?["url"], context)
+      ), 
+    );
 }
