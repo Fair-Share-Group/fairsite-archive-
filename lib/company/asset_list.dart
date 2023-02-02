@@ -1,4 +1,4 @@
-import 'package:fairsite/asset/facebook_asset_widget.dart';
+import 'package:fairsite/company/asset/facebook_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,8 +7,9 @@ import 'package:fairsite/company/company_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 
-import '../asset/linkedin_asset_widget.dart';
-import '../asset/twitter_asset_widget.dart';
+import 'asset/abn_asset_widget.dart';
+import 'asset/linkedin_asset_widget.dart';
+import 'asset/twitter_asset_widget.dart';
 
 class AssetListView extends ConsumerWidget {
   final String entityId;
@@ -27,14 +28,18 @@ class AssetListView extends ConsumerWidget {
         children: ref.watch(colSP('company/$entityId/asset')).when(
             loading: () => [],
             error: (e, s) => [ErrorWidget(e)],
-            data: (entities) => entities.docs
-                .map((entityDoc) => entityDoc.data()['type'] == 'LinkedIn'
-                    ? LinkedInAssetWidget(entityDoc.reference)
-                    : (entityDoc.data()['type'] == 'Twitter'
-                        ? TwitterAssetWidget()
-                        : (entityDoc.data()['type'] == 'Facebook'
-                            ? FacebookAssetWidget()
-                            : Text(''))))
-                .toList()));
+            data: (entities) => entities.docs.map<Widget>((entityDoc) {
+                  switch (entityDoc.data()['type']) {
+                    case 'LinkedIn':
+                      return LinkedInAssetWidget(entityDoc.reference);
+                    case 'Twitter':
+                      return TwitterAssetWidget();
+                    case 'Facebook':
+                      return FacebookAssetWidget();
+                    case 'ABN':
+                      return ABNAssetWidget(entityDoc.reference);
+                  }
+                  return Text('unknown asset');
+                }).toList()));
   }
 }
