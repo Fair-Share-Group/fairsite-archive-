@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../providers/firestore.dart';
+import '../../providers/firestore.dart';
 
 class LinkedInAssetWidget extends ConsumerWidget {
   late String _linkedinData;
@@ -38,19 +38,20 @@ class LinkedInAssetWidget extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ListTile(
-        title: Text('LinkedIn'),
-        subtitle: ref.watch(docSP(asset.path)).when(
-            loading: () => Container(),
-            error: (e, s) => ErrorWidget(e),
-            data: (assetDoc) =>
-                Text("followers: ${assetDoc.data()?['followers'] ?? ''}")),
-        isThreeLine: true,
-        trailing: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: () {
-            _getLinkedinData();
-          },
-        ),
-      );
+  Widget build(BuildContext context, WidgetRef ref) =>
+      ref.watch(docSP(asset.path)).when(
+          loading: () => Container(),
+          error: (e, s) => ErrorWidget(e),
+          data: (assetDoc) => ListTile(
+                title: Text('LinkedIn - ${assetDoc.data()?["url"]}'),
+                subtitle:
+                    Text("followers: ${assetDoc.data()?['followers'] ?? ''}"),
+                isThreeLine: true,
+                trailing: IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () {
+                    _getLinkedinData();
+                  },
+                ),
+              ));
 }
