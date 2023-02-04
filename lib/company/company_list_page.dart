@@ -26,6 +26,7 @@ StateNotifierProvider listFilterProvider =
 
 class CompanyListPage extends ConsumerWidget {
   final searchController = TextEditingController();
+  final searchFocus = FocusNode();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,15 +45,33 @@ class CompanyListPage extends ConsumerWidget {
                     child: Column(
                       children: [
                         Flexible(
-                          child: TextField(
-                            controller: searchController,
-                            decoration: const InputDecoration(
-                              hintText: 'Search',
-                              border: InputBorder.none,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: TextField(
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: const Color(0xFFD9D9D9),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      width: 1.1),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(50.0)),
+                                ),
+                                hintText: 'Search',
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50.0)),
+                                ),
+                              ),
+                              focusNode: searchFocus,
+                              onChanged: (value) => ref
+                                  .read(listFilterProvider.notifier)
+                                  .state = searchController.text,
                             ),
-                            onChanged: (value) => ref
-                                .read(listFilterProvider.notifier)
-                                .state = searchController.text,
                           ),
                         ),
                         Flexible(
