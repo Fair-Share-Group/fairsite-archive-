@@ -33,7 +33,7 @@ class AssetListView extends ConsumerWidget {
                     case 'LinkedIn':
                       return LinkedInAssetWidget(entityDoc.reference);
                     case 'Twitter':
-                      return TwitterAssetWidget();
+                      return TwitterAssetWidget(entityDoc.reference);
                     case 'Facebook':
                       return FacebookAssetWidget();
                     case 'ABN':

@@ -1,21 +1,49 @@
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+
+Future<dynamic> _getTwitterData(String username) async {
+  String apiUrl =
+      "https://twitter154.p.rapidapi.com/user/details?username=${username.toLowerCase()}";
+
+  final http.Response res = await http.get(
+    Uri.parse("$apiUrl"),
+    headers: {
+      'X-RapidAPI-Key': 'e082e1c185mshc384dc4309007bcp1f62e0jsnf396270175ec',
+      'X-RapidAPI-Host': 'twitter154.p.rapidapi.com'
+    },
+  );
+
+  if (res.statusCode == 404) {
+    return "User could not be found";
+  }
+
+  if (res.statusCode == 401 || res.statusCode == 403) {
+    return "Application is not authenticated";
+  }
+
+  var body = jsonDecode(res.body);
+
+  return body;
+}
 
 class TwitterAssetWidget extends ConsumerWidget {
+  final DocumentReference asset;
+
+  TwitterAssetWidget(this.asset);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) => ListTile(
-      title: Text('Twitter'),
-      subtitle: Text('s'),
-      isThreeLine: true,
-      trailing: IconButton(
-        icon: Icon(Icons.refresh),
-        onPressed: () {
-          //API Call...
-        },
-      ),
-      onTap: () {
-        // ref.read(selectedItem).value = Map.fromEntries(
-        //     entity.data().entries.toList()
-        //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-      });
+        title: Text('Twitter'),
+        subtitle: Text('s'),
+        isThreeLine: true,
+        trailing: IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {
+            _getTwitterData("google").then((value) => print(value));
+          },
+        ),
+      );
 }
