@@ -31,7 +31,7 @@ class AssetListView extends ConsumerWidget {
                 .map((entityDoc) => entityDoc.data()['type'] == 'LinkedIn'
                     ? LinkedInAssetWidget(entityDoc.reference)
                     : (entityDoc.data()['type'] == 'Twitter'
-                        ? TwitterAssetWidget()
+                        ? TwitterAssetWidget(entityDoc.reference)
                         : (entityDoc.data()['type'] == 'Facebook'
                             ? FacebookAssetWidget()
                             : Text(''))))

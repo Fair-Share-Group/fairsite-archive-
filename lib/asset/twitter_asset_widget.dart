@@ -1,23 +1,18 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-Future<dynamic> _getTwitterData(String username, List<String> fields) async {
+Future<dynamic> _getTwitterData(String username) async {
   String apiUrl =
-      "https://api.twitter.com/2/users/by/username/${username.toLowerCase()}?user.fields=${fields.join(",")}";
-
-  // Require our own CORS wrapper to use Twitter API directly, along with extra
-  // security since this exposes API keys. This is only for development purposes
-  // and should not be used in production. Everything making use of API keys must
-  // be handled by middleware and on the back end and not on the front end like we
-  // are doing here.
-  String corsWrapperUrl = "https://cors-anywhere.herokuapp.com/";
+      "https://twitter154.p.rapidapi.com/user/details?username=${username.toLowerCase()}";
 
   final http.Response res = await http.get(
-    Uri.parse("$corsWrapperUrl$apiUrl"),
+    Uri.parse("$apiUrl"),
     headers: {
-      'Authorization': 'Bearer KEYHERE',
+      'X-RapidAPI-Key': 'e082e1c185mshc384dc4309007bcp1f62e0jsnf396270175ec',
+      'X-RapidAPI-Host': 'twitter154.p.rapidapi.com'
     },
   );
 
@@ -35,6 +30,10 @@ Future<dynamic> _getTwitterData(String username, List<String> fields) async {
 }
 
 class TwitterAssetWidget extends ConsumerWidget {
+  final DocumentReference asset;
+
+  TwitterAssetWidget(this.asset);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) => ListTile(
         title: Text('Twitter'),
@@ -43,11 +42,7 @@ class TwitterAssetWidget extends ConsumerWidget {
         trailing: IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () {
-            _getTwitterData("google", [
-              "public_metrics",
-              "profile_image_url",
-              "created_at"
-            ]).then((value) => print(value));
+            _getTwitterData("google").then((value) => print(value));
           },
         ),
       );
