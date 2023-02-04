@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:jiffy/jiffy.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
+final CURRENT_USER = FirebaseAuth.instance.currentUser!;
 
 List<Jiffy> generateWeeks(Jiffy start, Jiffy end) {
   List<Jiffy> list = [];
