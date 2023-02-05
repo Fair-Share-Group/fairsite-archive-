@@ -14,8 +14,8 @@ class FacebookAssetWidget extends ConsumerWidget {
     loading: () => Container(), 
     error: (e, s) => ErrorWidget(e), 
     data: (assetDoc) => ListTile(
-      title: Text('Facebook - ${assetDoc.data()?["url"]}'),
-      subtitle: Text(''),
+      title: Text(AssetType.Facebook.name),
+      subtitle: Text(data(assetDoc, 'id')),
       isThreeLine: true,
       trailing: IconButton(
         icon: Icon(Icons.refresh),
@@ -23,7 +23,7 @@ class FacebookAssetWidget extends ConsumerWidget {
           //API Call...
         },
       ),
-      onTap: () => openUrl(assetDoc.data()?["url"], context)
+      onTap: () => openAssestWebpage(AssetType.Facebook, data(assetDoc, 'id'), context),
       ), 
     );
 }

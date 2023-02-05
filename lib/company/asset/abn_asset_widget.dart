@@ -21,9 +21,9 @@ class ABNAssetWidget extends ConsumerWidget {
             loading: () => Container(),
             error: (e, s) => ErrorWidget(e),
             data: (assetDoc) => ListTile(
-              title: Text('ABN'),
-              subtitle: Text("${assetDoc.data()?['url'] ?? ''}"),
-              onTap: () => openUrl((assetDoc.data()?['url'] ?? ''), context), // in the future, can probably get rid of null handling
+              title: Text(AssetType.ABN.name),
+              subtitle: Text(data(assetDoc, 'id')),
+              onTap: () => openAssestWebpage(AssetType.ABN, data(assetDoc, 'id'), context),
               isThreeLine: true,
               )
             );

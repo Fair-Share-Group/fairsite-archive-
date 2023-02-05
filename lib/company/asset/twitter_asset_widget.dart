@@ -14,8 +14,8 @@ class TwitterAssetWidget extends ConsumerWidget {
     loading: () => Container(), 
     error: (e, s) => ErrorWidget(e), 
     data: (assetDoc) => ListTile(
-      title: Text('Twitter - ${assetDoc.data()?["url"]}'),
-      subtitle: Text(''),
+      title: Text(AssetType.Twitter.name),
+      subtitle: Text(data(assetDoc, 'id')),
       isThreeLine: true,
       trailing: IconButton(
         icon: Icon(Icons.refresh),
@@ -23,7 +23,7 @@ class TwitterAssetWidget extends ConsumerWidget {
           //API Call...
         },
       ),
-      onTap: () => openUrl(assetDoc.data()?["url"], context)
+      onTap: () => openAssestWebpage(AssetType.Twitter, data(assetDoc, 'id'), context),
       ), 
     );
 }

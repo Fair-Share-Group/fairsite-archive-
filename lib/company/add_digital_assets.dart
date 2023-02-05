@@ -1,25 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'company_info.dart';
 
 class AddDigitalAssetsDialog extends StatefulWidget {
   @override
+
+  final String entityId;
+
+  AddDigitalAssetsDialog(this.entityId);
+
   State<StatefulWidget> createState() {
-    return _SelectedValueState();
+    return _SelectedValueState(entityId);
   }
 }
 
 class _SelectedValueState extends State<AddDigitalAssetsDialog> {
   var _currentAssetTitle;
-  var assetTitles = ["LinkedIn", "Facebook", "Twitter", "ABN"];
 
-  var _formData = {"asset_type": " ", "asset_url": " "};
+  final String _entityId;
 
-  // Hardcoded for testing
-  // ISSUE #1
-  // Fetch the document ID of currently selected document
-  static const _documentId = "1111";
+  _SelectedValueState(this._entityId);
+
+  var _formData = {"asset_type": "", "asset_url": ""};
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +49,9 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                 decoration: InputDecoration(
                                     labelText: "Asset type: ",
                                     contentPadding: EdgeInsets.all(20)),
-                                items: assetTitles.map((item) {
+                                items: AssetType.values.map((item) {
                                   return DropdownMenuItem(
-                                      value: item, child: Text(item));
+                                      value: item.name, child: Text(item.name));
                                 }).toList(),
                                 onSaved: (current) {
                                   this._currentAssetTitle = current.toString();
@@ -59,38 +63,42 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                     this._formData["asset_type"] =
                                         current.toString();
                                   });
-
-                                  print(current);
                                 },
                                 value: this._currentAssetTitle,
                               ),
                               TextFormField(
                                   decoration: InputDecoration(
-                                      labelText: "Asset URL :",
+                                      labelText: "Asset ID:",
                                       contentPadding: EdgeInsets.all(20)),
                                   onChanged: ((value) {
                                     setState(() {
-                                      this._formData["asset_url"] = value;
+                                      this._formData["asset_url"] = value.trim();
                                     });
                                     print(this._formData["asset_url"]);
                                   })),
                               ElevatedButton(
                                   onPressed: () {
-                                    print(_formData);
-
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //     SnackBar(
-                                    //         content: Text(
-                                    //             "Fields cannot be blank")));
+                                    if (_formData.values.contains('')) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text("Fields cannot be empty"))
+                                        );
+                                        return;
+                                    }
 
                                     FirebaseFirestore.instance
                                         .collection('company')
-                                        .doc(_documentId)
+                                        .doc(_entityId)
                                         .collection('asset')
                                         .add({
                                       "type": _formData["asset_type"],
-                                      "url": _formData["asset_url"]
+                                      "id": _formData["asset_url"]
+                                    }).whenComplete(() {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text("Assest successfully added"))
+                                        );
+                                      Navigator.pop(context);
                                     });
+                                    
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.green,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,7 +44,7 @@ List<Jiffy> generateDays(Jiffy start, Jiffy end) {
   return list;
 }
 
-Future<void> openUrl(String url, BuildContext context) async {
+openUrl(String url, BuildContext context) async {
   url = url.trim();
   if (url.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -62,4 +63,48 @@ Future<void> openUrl(String url, BuildContext context) async {
   }
 }
 
+openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
+  id = id.trim();
+  if (id.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("No id found for this asset")));
+    return;
+  }
+
+  var url = getAssetUrl(assetType, id);
+  
+
+  if (!await launchUrl(Uri.parse(url))) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Could not open $url")));
+  }
+}
+
+String getAssetUrl(AssetType assetType, String id) {
+switch (assetType) {
+    case AssetType.LinkedIn:
+      return "https://www.linkedin.com/company/$id/";
+    case AssetType.Twitter:
+      return "https://twitter.com/$id/";
+    case AssetType.Facebook:
+      return "https://www.facebook.com/$id/";
+    case AssetType.ABN:
+      return "https://abr.business.gov.au/ABN/View?abn=$id/";
+  }
+}
+
+dynamic data(DocumentSnapshot<Map<String, dynamic>> doc, String field) {
+  return doc.data()?[field] ?? "field \"$field\" was not used when creating this asset";
+}
+
+
+enum AssetType {
+  LinkedIn,
+  Facebook, 
+  Twitter, 
+  ABN
+}
+
 const WIDE_SCREEN_WIDTH = 600;
+
+
