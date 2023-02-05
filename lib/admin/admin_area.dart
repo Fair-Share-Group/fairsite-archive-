@@ -5,20 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/firestore.dart';
 import 'package:fairsite/common.dart';
 
-
-class MemberArea extends ConsumerWidget {
+class AdminArea extends ConsumerWidget {
   final String companyId;
-  MemberArea(this.companyId);
+  AdminArea(this.companyId);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => ref
       .watch(docSP(
-          'company/$companyId/member/${CURRENT_USER.uid}'))
+          'company/$companyId/admin/${CURRENT_USER.uid}'))
       .when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
-          data: (memberDoc) => memberDoc.exists
-              ? Text('member area')
+          data: (adminDoc) => adminDoc.exists
+              ? Text('Admin Area')
               : Text(
-                  'uid ${CURRENT_USER.uid} is not a member of ${companyId}'));
+                  'uid ${CURRENT_USER.uid} is not an admin of ${companyId}'));
 }
