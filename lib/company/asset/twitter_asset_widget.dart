@@ -1,11 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
+import 'package:fairsite/providers/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TwitterAssetWidget extends ConsumerWidget {
+  final DocumentReference asset;
+
+  TwitterAssetWidget(this.asset);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ListTile(
-      title: Text('Twitter'),
-      subtitle: Text('s'),
+  Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
+    loading: () => Container(), 
+    error: (e, s) => ErrorWidget(e), 
+    data: (assetDoc) => ListTile(
+      title: Text(AssetType.Twitter.name),
+      subtitle: Text(data(assetDoc, 'id')),
       isThreeLine: true,
       trailing: IconButton(
         icon: Icon(Icons.refresh),
@@ -13,9 +23,7 @@ class TwitterAssetWidget extends ConsumerWidget {
           //API Call...
         },
       ),
-      onTap: () {
-        // ref.read(selectedItem).value = Map.fromEntries(
-        //     entity.data().entries.toList()
-        //       ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-      });
+      onTap: () => openAssestWebpage(AssetType.Twitter, data(assetDoc, 'id'), context),
+      ), 
+    );
 }

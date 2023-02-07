@@ -1,3 +1,4 @@
+import 'package:fairsite/common.dart';
 import 'package:fairsite/company/asset/facebook_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,17 +30,23 @@ class AssetListView extends ConsumerWidget {
             loading: () => [],
             error: (e, s) => [ErrorWidget(e)],
             data: (entities) => entities.docs.map<Widget>((entityDoc) {
-                  switch (entityDoc.data()['type']) {
-                    case 'LinkedIn':
-                      return LinkedInAssetWidget(entityDoc.reference);
-                    case 'Twitter':
-                      return TwitterAssetWidget();
-                    case 'Facebook':
-                      return FacebookAssetWidget();
-                    case 'ABN':
-                      return ABNAssetWidget(entityDoc.reference);
+                  try {
+                    final type = AssetType.values.byName(data(entityDoc, 'type').toString());
+                    switch (type) {
+                      case AssetType.LinkedIn:
+                        return LinkedInAssetWidget(entityDoc.reference);
+                      case AssetType.Twitter:
+                        return TwitterAssetWidget(entityDoc.reference);
+                      case AssetType.Facebook:
+                        return FacebookAssetWidget(entityDoc.reference);
+                      case AssetType.ABN:
+                        return ABNAssetWidget(entityDoc.reference);
+                    } 
+                  } catch(e) {
+                    print("Ran into exception when trying to cast ${data(entityDoc, 'type')} to AssetType");
+                    print(e);
+                    return Text('${data(entityDoc, 'type').toString()} is not a valid asset type');
                   }
-                  return Text('unknown asset');
                 }).toList()));
   }
 }
