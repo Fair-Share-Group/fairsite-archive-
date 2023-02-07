@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
+import 'package:fairsite/providers/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -35,15 +37,20 @@ class TwitterAssetWidget extends ConsumerWidget {
   TwitterAssetWidget(this.asset);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ListTile(
-        title: Text('Twitter'),
-        subtitle: Text('s'),
-        isThreeLine: true,
-        trailing: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: () {
-            _getTwitterData("google").then((value) => print(value));
-          },
-        ),
-      );
+  Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
+    loading: () => Container(), 
+    error: (e, s) => ErrorWidget(e), 
+    data: (assetDoc) => ListTile(
+      title: Text(AssetType.Twitter.name),
+      subtitle: Text(data(assetDoc, 'id')),
+      isThreeLine: true,
+      trailing: IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed: () {
+          _getTwitterData("google").then((value) => print(value));
+        },
+      ),
+      onTap: () => openAssestWebpage(AssetType.Twitter, data(assetDoc, 'id'), context),
+      ), 
+    );
 }

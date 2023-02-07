@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -16,12 +17,14 @@ class ABNAssetWidget extends ConsumerWidget {
   ABNAssetWidget(this.asset);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => ListTile(
-        title: Text('ABN'),
-        subtitle: ref.watch(docSP(asset.path)).when(
+  Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
             loading: () => Container(),
             error: (e, s) => ErrorWidget(e),
-            data: (assetDoc) => Text("${assetDoc.data()?['url'] ?? ''}")),
-        isThreeLine: true,
-      );
+            data: (assetDoc) => ListTile(
+              title: Text(AssetType.ABN.name),
+              subtitle: Text(data(assetDoc, 'id')),
+              onTap: () => openAssestWebpage(AssetType.ABN, data(assetDoc, 'id'), context),
+              isThreeLine: true,
+              )
+            );
 }

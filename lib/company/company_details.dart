@@ -1,3 +1,4 @@
+import 'package:fairsite/admin/admin_area.dart';
 import 'package:fairsite/member/member_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +27,7 @@ class CompanyDetails extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(flex: 1, child: CompanyInfo(entityId)),
-            Flexible(child: MemberArea(entityId)),
+            Flexible(child: MemberArea(entityId)), // only one area should be shown at a time
+            Flexible(child: AdminArea(entityId)),
           ]));
 }

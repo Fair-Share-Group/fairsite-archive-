@@ -63,7 +63,7 @@ class CompanyInfo extends ConsumerWidget {
                 // Issue with overflow is making the button unclickable
                 // ISSUE #2
 
-                Flexible(flex: 1, child: AddDigitalAssetsDialog()),
+                Flexible(flex: 1, child: AddDigitalAssetsDialog(entityId)),
 
                 Flexible(flex: 5, child: AssetListView(entityId)),
 

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/main.dart';
 import 'package:fairsite/state/theme_state_notifier.dart';
@@ -26,8 +27,18 @@ class MyAppBar {
           ? null
           : Padding(
               padding: EdgeInsets.all(10),
-              child: Text(
-                  'signed in as: ${FirebaseAuth.instance.currentUser!.uid}'),
+              child: GestureDetector(
+                onTap: () {
+                    Clipboard.setData(ClipboardData(text: CURRENT_USER.uid)).then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("${CURRENT_USER.uid} copied to clipboard"))
+                      );
+                    });
+                },
+                child: Text(
+                  'signed in as: ${CURRENT_USER.uid}'),
+              )
+                  
             ),
       title: (MediaQuery.of(context).size.width < WIDE_SCREEN_WIDTH)
           ? null
