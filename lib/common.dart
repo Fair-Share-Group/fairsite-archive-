@@ -93,6 +93,8 @@ switch (assetType) {
       return "https://www.facebook.com/$id/";
     case AssetType.ABN:
       return "https://abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Domain:
+      return "https://$id";
   }
 }
 
@@ -105,7 +107,8 @@ enum AssetType {
   LinkedIn,
   Facebook, 
   Twitter, 
-  ABN
+  ABN,
+  Domain
 }
 
 const WIDE_SCREEN_WIDTH = 600;
