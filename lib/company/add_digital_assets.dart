@@ -23,7 +23,7 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
 
   _SelectedValueState(this._entityId);
 
-  var _formData = {"asset_type": "", "asset_url": ""};
+  var _formData = {"asset_type": "", "asset_id": ""};
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +72,9 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                       contentPadding: EdgeInsets.all(20)),
                                   onChanged: ((value) {
                                     setState(() {
-                                      this._formData["asset_url"] = value.trim();
+                                      this._formData["asset_id"] = value.trim();
                                     });
-                                    print(this._formData["asset_url"]);
+                                    print(this._formData["asset_id"]);
                                   })),
                               ElevatedButton(
                                   onPressed: () {
@@ -91,7 +91,7 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                         .collection('asset')
                                         .add({
                                       "type": _formData["asset_type"],
-                                      "id": _formData["asset_url"]
+                                      "id": _formData["asset_id"]
                                     }).whenComplete(() {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(content: Text("Assest successfully added"))

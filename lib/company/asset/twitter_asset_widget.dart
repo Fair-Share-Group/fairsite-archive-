@@ -6,24 +6,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TwitterAssetWidget extends ConsumerWidget {
   final DocumentReference asset;
+  static const AssetType _type = AssetType.Twitter;
 
   TwitterAssetWidget(this.asset);
 
-  @override
+ @override
   Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
     loading: () => Container(), 
     error: (e, s) => ErrorWidget(e), 
-    data: (assetDoc) => ListTile(
-      title: Text(AssetType.Twitter.name),
+    data: (assetDoc) => Card(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ListTile(
+      title: Text(_type.name),
       subtitle: Text(data(assetDoc, 'id')),
-      isThreeLine: true,
       trailing: IconButton(
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
         onPressed: () {
           //API Call...
         },
       ),
-      onTap: () => openAssestWebpage(AssetType.Twitter, data(assetDoc, 'id'), context),
-      ), 
+      ),
+      Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
+            avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
+            label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),
+            onPressed: () => openAssestWebpage(_type, data(assetDoc, 'id'), context),
+            ),
+      ),
+      ]),
+    ) 
     );
 }
