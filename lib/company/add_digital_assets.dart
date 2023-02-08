@@ -74,7 +74,6 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                     setState(() {
                                       this._formData["asset_id"] = value.trim();
                                     });
-                                    print(this._formData["asset_id"]);
                                   })),
                               ElevatedButton(
                                   onPressed: () {
