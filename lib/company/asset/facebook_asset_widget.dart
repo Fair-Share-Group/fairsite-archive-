@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FacebookAssetWidget extends ConsumerWidget {
   final DocumentReference asset;
+  static const AssetType _type = AssetType.Facebook;
 
   FacebookAssetWidget(this.asset);
 
@@ -13,17 +14,27 @@ class FacebookAssetWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
     loading: () => Container(), 
     error: (e, s) => ErrorWidget(e), 
-    data: (assetDoc) => ListTile(
-      title: Text(AssetType.Facebook.name),
+    data: (assetDoc) => Card(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ListTile(
+      title: Text(_type.name),
       subtitle: Text(data(assetDoc, 'id')),
-      isThreeLine: true,
       trailing: IconButton(
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
         onPressed: () {
           //API Call...
         },
       ),
-      onTap: () => openAssestWebpage(AssetType.Facebook, data(assetDoc, 'id'), context),
-      ), 
+      ),
+      Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
+            avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
+            label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),
+            onPressed: () => openAssestWebpage(_type, data(assetDoc, 'id'), context),
+            ),
+      ),
+      ]),
+    ) 
     );
+
+
 }

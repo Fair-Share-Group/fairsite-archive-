@@ -24,6 +24,9 @@ final lightTheme = ThemeData(
       bodyMedium: TextStyle(
         color: Color.fromARGB(255, 255, 153, 10), //change link color to orange
       )),
+  
+  cardTheme: cardTheme,
+  chipTheme: actionChipTheme,
 );
 
 final darkTheme = ThemeData(
@@ -50,7 +53,21 @@ final darkTheme = ThemeData(
         bodyMedium: TextStyle(
           color:
               Color.fromARGB(255, 255, 153, 10), //change link color to orange
-        )));
+        )),
+    
+    cardTheme: cardTheme,
+    chipTheme: actionChipTheme,
+        );
+
+const actionChipTheme = ChipThemeData(
+          backgroundColor: Colors.transparent,
+          shape: StadiumBorder(side: BorderSide(color: Colors.black12)),
+          elevation: 0,
+        );
+
+const cardTheme = CardTheme(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(18)), side: BorderSide(color: Colors.black26)),
+        );
 
 //style static class for login_page
 class LoginStyle {
