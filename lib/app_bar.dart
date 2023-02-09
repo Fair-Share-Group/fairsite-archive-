@@ -28,8 +28,18 @@ class MyAppBar {
           ? null
           : Padding(
               padding: EdgeInsets.all(10),
-              child: Text(
-                  'signed in as: ${FirebaseAuth.instance.currentUser!.uid}'),
+              child: GestureDetector(
+                onTap: () {
+                    Clipboard.setData(ClipboardData(text: CURRENT_USER.uid)).then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("${CURRENT_USER.uid} copied to clipboard"))
+                      );
+                    });
+                },
+                child: Text(
+                  'signed in as: ${CURRENT_USER.uid}'),
+              )
+                  
             ),
       title: (MediaQuery.of(context).size.width < WIDE_SCREEN_WIDTH)
           ? null
