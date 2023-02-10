@@ -20,7 +20,7 @@ class TwitterAssetWidget extends ConsumerWidget {
       Row(mainAxisAlignment: MainAxisAlignment.start,
           children: [
           Padding(padding: const EdgeInsets.only(left: 15), child: 
-            SvgPicture.asset('assets/svg/twitter.svg', width: 36, height: 36, color: Theme.of(context).iconTheme.color,),
+            SvgPicture.asset('svg/twitter.svg', width: 36, height: 36, color: Theme.of(context).iconTheme.color,),
           ),
           Expanded(child: ListTile(
             title: Text(_type.name),

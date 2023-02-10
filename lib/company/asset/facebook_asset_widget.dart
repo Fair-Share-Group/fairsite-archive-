@@ -20,7 +20,7 @@ class FacebookAssetWidget extends ConsumerWidget {
         Row(mainAxisAlignment: MainAxisAlignment.start,
           children: [
           Padding(padding: const EdgeInsets.only(left: 15), child: 
-            SvgPicture.asset('assets/svg/facebook.svg', width: 36, height: 36, color: Theme.of(context).iconTheme.color,),
+            SvgPicture.asset('svg/facebook.svg', width: 36, height: 36, color: Theme.of(context).iconTheme.color,),
           ),
           Expanded(child: ListTile(
             title: Text(_type.name),
