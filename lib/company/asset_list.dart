@@ -32,10 +32,12 @@ class AssetListView extends ConsumerWidget {
             error: (e, s) => [ErrorWidget(e)],
             data: (entities) => entities.docs.map<Widget>((entityDoc) {
                   try {
-                    final type = AssetType.values.byName(data(entityDoc, 'type').toString());
+                    final type = AssetType.values
+                        .byName(data(entityDoc, 'type').toString());
                     switch (type) {
                       case AssetType.LinkedIn:
-                        return LinkedInAssetWidget(entityDoc.reference);
+                        return LinkedInAssetWidget(
+                            entityDoc.reference, entityId);
                       case AssetType.Twitter:
                         return TwitterAssetWidget(entityDoc.reference);
                       case AssetType.Facebook:
@@ -44,11 +46,13 @@ class AssetListView extends ConsumerWidget {
                         return ABNAssetWidget(entityDoc.reference);
                       case AssetType.Domain:
                         return DomainAssetWidget(entityDoc.reference);
-                    } 
-                  } catch(e) {
-                    print("Ran into exception when trying to cast ${data(entityDoc, 'type')} to AssetType");
+                    }
+                  } catch (e) {
+                    print(
+                        "Ran into exception when trying to cast ${data(entityDoc, 'type')} to AssetType");
                     print(e);
-                    return Text('${data(entityDoc, 'type').toString()} is not a valid asset type');
+                    return Text(
+                        '${data(entityDoc, 'type').toString()} is not a valid asset type');
                   }
                 }).toList()));
   }

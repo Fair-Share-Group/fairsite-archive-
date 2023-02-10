@@ -13,10 +13,11 @@ import '../../providers/firestore.dart';
 class LinkedInAssetWidget extends ConsumerWidget {
   late String _linkedinData;
   final DocumentReference asset;
+  final String entityId;
 
   static const AssetType _type = AssetType.LinkedIn;
 
-  LinkedInAssetWidget(this.asset);
+  LinkedInAssetWidget(this.asset, this.entityId);
 
   Future<String> _getLinkedinData(String id) async {
     final keyDoc = await FirebaseFirestore.instance.doc('api/rapidApi').get();
@@ -37,6 +38,10 @@ class LinkedInAssetWidget extends ConsumerWidget {
         "followers": (body['Results'][0]['FollowerCount'] ??
             'Could not find follower count')
       });
+      await FirebaseFirestore.instance
+          .doc("company/${entityId}")
+          .update({'logo': (body['Results'][0]['Logo'])});
+      print(response.body);
       return _linkedinData = response.body;
     } else {
       throw Exception("No data found");

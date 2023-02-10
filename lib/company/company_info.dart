@@ -29,6 +29,12 @@ class CompanyInfo extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Flexible(
+                            child: Image.network(
+                                (companyDoc.data()!['logo'] != null)
+                                    ? companyDoc.data()!['logo']
+                                    : 'no logo'),
+                          ),
+                          Flexible(
                               child: Text(
                             (companyDoc.data()!['name'] != null)
                                 ? companyDoc.data()!['name']
