@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 final CURRENT_USER = FirebaseAuth.instance.currentUser!;
+final DB_INSTANCE = FirebaseFirestore.instance;
 
 List<Jiffy> generateWeeks(Jiffy start, Jiffy end) {
   List<Jiffy> list = [];
@@ -74,7 +75,7 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
     return;
   }
 
-  var url = getAssetUrl(assetType, id);
+  var url = "https://${getAssetUrl(assetType, id)}";
   
 
   if (!await launchUrl(Uri.parse(url))) {
@@ -83,18 +84,20 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
   }
 }
 
+
+// Gets the url of an asset without http
 String getAssetUrl(AssetType assetType, String id) {
 switch (assetType) {
     case AssetType.LinkedIn:
-      return "https://www.linkedin.com/company/$id/";
+      return "www.linkedin.com/company/$id/";
     case AssetType.Twitter:
-      return "https://twitter.com/$id/";
+      return "twitter.com/$id/";
     case AssetType.Facebook:
-      return "https://www.facebook.com/$id/";
+      return "www.facebook.com/$id/";
     case AssetType.ABN:
-      return "https://abr.business.gov.au/ABN/View?abn=$id/";
-    case AssetType.Domain:
-      return "https://$id";
+      return "abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Website:
+      return id;
   }
 }
 
@@ -108,7 +111,7 @@ enum AssetType {
   Facebook, 
   Twitter, 
   ABN,
-  Domain
+  Website
 }
 
 const WIDE_SCREEN_WIDTH = 600;
