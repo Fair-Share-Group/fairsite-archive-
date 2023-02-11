@@ -75,7 +75,7 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
     return;
   }
 
-  var url = "https://${getAssetUrl(assetType, id)}";
+  var url = getAssetUrl(assetType, id);
   
 
   if (!await launchUrl(Uri.parse(url))) {
@@ -84,16 +84,31 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
   }
 }
 
-
-// Gets the url of an asset without http
+// Get full form correct url 
 String getAssetUrl(AssetType assetType, String id) {
 switch (assetType) {
     case AssetType.LinkedIn:
-      return "www.linkedin.com/company/$id/";
+      return "https://www.linkedin.com/company/$id/";
+    case AssetType.Twitter:
+      return "https://twitter.com/$id/";
+    case AssetType.Facebook:
+      return "https://www.facebook.com/$id/";
+    case AssetType.ABN:
+      return "https://abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Website:
+      return id;
+  }
+}
+
+// Get url used for displaying
+String getAssetDisplayUrl(AssetType assetType, String id) {
+  switch (assetType) {
+    case AssetType.LinkedIn:
+      return "linkedin.com/company/$id/";
     case AssetType.Twitter:
       return "twitter.com/$id/";
     case AssetType.Facebook:
-      return "www.facebook.com/$id/";
+      return "facebook.com/$id/";
     case AssetType.ABN:
       return "abr.business.gov.au/ABN/View?abn=$id/";
     case AssetType.Website:

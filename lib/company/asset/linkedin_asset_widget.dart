@@ -50,7 +50,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
         Row(mainAxisAlignment: MainAxisAlignment.start,
           children: [
           Padding(padding: const EdgeInsets.only(left: 15), child: 
-            SvgPicture.asset('svg/linkedin.svg', width: 36, height: 36, color: Theme.of(context).iconTheme.color,),
+            SvgPicture.asset('svg/linkedin.svg', width: 36, height: 36,),
           ),
           Expanded(child: ListTile(
           title: Text('${AssetType.LinkedIn.name} - ${data(assetDoc, 'id')}'),
@@ -64,7 +64,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
         ,
       Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
             avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
-            label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),
+            label: Text("${getAssetDisplayUrl(_type, data(assetDoc, 'id'))}"),
             onPressed: () => openAssestWebpage(_type, data(assetDoc, 'id'), context),
             ),
       ),
