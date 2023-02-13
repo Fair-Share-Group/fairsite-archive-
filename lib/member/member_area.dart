@@ -1,11 +1,15 @@
+import 'dart:convert';
+import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login/login.dart';
-
+import 'dart:async';
 import '../providers/firestore.dart';
 import 'package:fairsite/common.dart';
+import 'package:jiffy/jiffy.dart';
 
 class MemberArea extends ConsumerWidget {
   final String companyId;
@@ -17,51 +21,46 @@ class MemberArea extends ConsumerWidget {
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (memberDoc) => memberDoc.exists
-              ? buildMemberPanel(ref)
-              : Text(
-                  'uid ${CURRENT_USER.uid} is not a member of ${companyId}'));
+              ? Column(children: [
+                  Text("MEMBER AREA FOR USER ${CURRENT_USER.displayName}",
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  buildMemberPanel(context, ref)
+                ])
+              : Text('uid ${CURRENT_USER.uid} is not a member of $companyId'));
 
-  Widget buildMemberPanel(WidgetRef ref) {
+  Widget buildMemberPanel(BuildContext context, WidgetRef ref) {
     return Container(
-        width: 700,
-        decoration: BoxDecoration(
-            color: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.black)),
-        child: ListView(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Text("MEMBER AREA FOR USER ${CURRENT_USER.displayName}",
-                style: const TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold)),
-          ]),
-          StreamBuilder<QuerySnapshot>(
+        child: ref.watch(colSP('company/$companyId/member')).when(
+            loading: () => Container(),
+            data: (memberDocs) {
+              return Column(
+                  children: memberDocs.docs.map((doc) {
+                return ListTile(
+                    title: Text(doc.data()['name']),
+                    subtitle: Text(
+                        "Date Joined : ${Jiffy(doc.data()['date joined'].toDate()).format("do MMMM yyyy, h:mm:ss a")}"));
+              }).toList());
+            },
+            error: ((error, stackTrace) => ErrorWidget(error))));
+  }
+
+  /* List<Widget> getMembers(memberDoc) {
+    return memberDoc.map<Widget>((doc) {
+      ListTile(title: Text(doc["name"]), subtitle: Text(doc["date joined"]));
+    }).toList();
+  } */
+}
+
+
+// Stream Builder Code
+
+/* StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("company/$companyId/member")
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return const Text("No members found");
-                return Column(children: getMembers(snapshot));
-              })
-        ]));
-  }
-
-  getMembers(AsyncSnapshot<QuerySnapshot> snapshot) {
-    return snapshot.data!.docs
-        .map((doc) => Container(
-            width: 400,
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: Colors.blue.shade700,
-                borderRadius: BorderRadius.circular(30)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(doc["name"], style: TextStyle(color: Colors.white)),
-                  Text(doc["date joined"],
-                      style: TextStyle(color: Colors.white))
-                ])))
-        .toList();
-  }
-}
+                return Column(children: getMembers(snapshot).toList());
+              }) */
