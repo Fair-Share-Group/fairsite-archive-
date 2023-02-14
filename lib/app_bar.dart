@@ -100,7 +100,7 @@ class MyAppBar {
                                         : (FirebaseAuth.instance.currentUser
                                                     ?.photoURL ==
                                                 null
-                                            ? Image.asset('').image
+                                            ? Image.asset('svg/facebook.svg').image // placeholder image to remove exeception message from console
                                             : Image.network(FirebaseAuth
                                                     .instance
                                                     .currentUser!
