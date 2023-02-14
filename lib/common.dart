@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 final CURRENT_USER = FirebaseAuth.instance.currentUser!;
+final DB_INSTANCE = FirebaseFirestore.instance;
 
 List<Jiffy> generateWeeks(Jiffy start, Jiffy end) {
   List<Jiffy> list = [];
@@ -83,6 +84,7 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
   }
 }
 
+// Get full form correct url 
 String getAssetUrl(AssetType assetType, String id) {
 switch (assetType) {
     case AssetType.LinkedIn:
@@ -93,6 +95,24 @@ switch (assetType) {
       return "https://www.facebook.com/$id/";
     case AssetType.ABN:
       return "https://abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Website:
+      return id;
+  }
+}
+
+// Get url used for displaying
+String getAssetDisplayUrl(AssetType assetType, String id) {
+  switch (assetType) {
+    case AssetType.LinkedIn:
+      return "linkedin.com/company/$id/";
+    case AssetType.Twitter:
+      return "twitter.com/$id/";
+    case AssetType.Facebook:
+      return "facebook.com/$id/";
+    case AssetType.ABN:
+      return "abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Website:
+      return id;
   }
 }
 
@@ -105,7 +125,8 @@ enum AssetType {
   LinkedIn,
   Facebook, 
   Twitter, 
-  ABN
+  ABN,
+  Website
 }
 
 const WIDE_SCREEN_WIDTH = 600;

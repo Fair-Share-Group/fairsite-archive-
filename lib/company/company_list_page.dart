@@ -82,7 +82,7 @@ class CompanyListPage extends ConsumerWidget {
                           flex: 1,
                           child: IconButton(
                               onPressed: () => {
-                                    FirebaseFirestore.instance
+                                    DB_INSTANCE
                                         .collection('company')
                                         .add({'name': 'New company'})
                                   },

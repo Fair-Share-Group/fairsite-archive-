@@ -1,4 +1,5 @@
 import 'package:fairsite/common.dart';
+import 'package:fairsite/company/asset/website_asset_widget.dart';
 import 'package:fairsite/company/asset/facebook_asset_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,8 @@ class AssetListView extends ConsumerWidget {
                         return FacebookAssetWidget(entityDoc.reference);
                       case AssetType.ABN:
                         return ABNAssetWidget(entityDoc.reference);
+                      case AssetType.Website:
+                        return DomainAssetWidget(entityDoc.reference);
                     } 
                   } catch(e) {
                     print("Ran into exception when trying to cast ${data(entityDoc, 'type')} to AssetType");
