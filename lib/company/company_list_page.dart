@@ -41,7 +41,7 @@ class CompanyListPage extends ConsumerWidget {
                           Lists(),
                           IconButton(
                               onPressed: () => {
-                                    DB_INSTANCE
+                                    DB
                                         .collection('company')
                                         .add({'name': 'New company'})
                                   },

@@ -23,7 +23,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
   LinkedInAssetWidget(this.asset);
 
   Future<String> _getLinkedinData(String id) async {
-    final keyDoc = await DB_INSTANCE.doc('api/rapidApi').get();
+    final keyDoc = await DB.doc('api/rapidApi').get();
     final response = await http.post(
         Uri.parse(
             'https://linkedin-company-data.p.rapidapi.com/linkedInCompanyDataJsonV3Beta?liUrl=${getAssetUrl(AssetType.LinkedIn, id)}'),

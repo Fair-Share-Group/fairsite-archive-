@@ -84,7 +84,7 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                         return;
                                     }
 
-                                    DB_INSTANCE
+                                    DB
                                         .collection('company')
                                         .doc(_entityId)
                                         .collection('asset')
