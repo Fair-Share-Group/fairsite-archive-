@@ -7,7 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 final CURRENT_USER = FirebaseAuth.instance.currentUser!;
-final DB_INSTANCE = FirebaseFirestore.instance;
+final DB = FirebaseFirestore.instance;
+final AUTH = FirebaseAuth.instance;
 
 List<Jiffy> generateWeeks(Jiffy start, Jiffy end) {
   List<Jiffy> list = [];
