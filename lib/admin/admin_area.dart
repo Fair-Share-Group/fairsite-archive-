@@ -16,9 +16,8 @@ class AdminArea extends ConsumerWidget {
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
           data: (adminDoc) => adminDoc.exists
-              ? Text("ADMIN PANEL GOES HERE! ") //buildAdminPanel(ref)
-              : Text(
-                  'uid ${CURRENT_USER.uid} is not an admin of ${companyId}'));
+              ? buildAdminPanel(ref) //Text("ADMIN PANEL GOES HERE!")
+              : Text('uid ${CURRENT_USER.uid} is not an admin of $companyId'));
 
   Widget buildAdminPanel(WidgetRef ref) {
     return Container(
