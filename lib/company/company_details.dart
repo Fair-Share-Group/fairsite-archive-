@@ -27,9 +27,7 @@ class CompanyDetails extends ConsumerWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Flexible(flex: 1, child: CompanyInfo(entityId)),
-            Flexible(
-                child: MemberArea(
-                    entityId)), // only one area should be shown at a time
-            // Flexible(child: AdminArea(entityId)), //Commented out because of pixel overflow.
+            Flexible(child: MemberArea(entityId)), // only one area should be shown at a time
+            Flexible(child: AdminArea(entityId)),
           ]));
 }

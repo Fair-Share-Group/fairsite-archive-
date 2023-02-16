@@ -84,7 +84,7 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                         return;
                                     }
 
-                                    DB_INSTANCE
+                                    FirebaseFirestore.instance
                                         .collection('company')
                                         .doc(_entityId)
                                         .collection('asset')
