@@ -53,7 +53,8 @@ dependencies:
       url: https://github.com/amlcloud/flutter-lib.git
       path: login
       ref: main
-
+  flutter_firebase_auth:
+    git: https://github.com/amlcloud/flutter-firebase-auth.git
 
 dev_dependencies:
   flutter_test:
