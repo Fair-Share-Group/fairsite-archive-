@@ -50,7 +50,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
         Row(mainAxisAlignment: MainAxisAlignment.start,
           children: [
           Padding(padding: const EdgeInsets.only(left: 15), child: 
-            SvgPicture.asset('svg/linkedin.svg', width: 36, height: 36,),
+            SvgPicture.asset('assets/svg/linkedin.svg', width: 36, height: 36,),
           ),
           Expanded(child: ListTile(
           title: Text('${AssetType.LinkedIn.name} - ${data(assetDoc, 'id')}'),
