@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fairsite/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -13,24 +14,24 @@ class LinkedInAssetWidget extends ConsumerWidget {
   late String _linkedinData;
   final DocumentReference asset;
 
+  static const AssetType _type = AssetType.LinkedIn;
+
+
   LinkedInAssetWidget(this.asset);
 
-  Future<String> _getLinkedinData() async {
+  Future<String> _getLinkedinData(String id) async {
     final keyDoc = await FirebaseFirestore.instance.doc('api/rapidApi').get();
     final response = await http.post(
         Uri.parse(
-            'https://linkedin-company-data.p.rapidapi.com/linkedInCompanyDataJsonV3Beta?liUrl=https://www.linkedin.com/company/swapu/'),
+            'https://linkedin-company-data.p.rapidapi.com/linkedInCompanyDataJsonV3Beta?liUrl=${getAssetUrl(AssetType.LinkedIn, id)}'),
         headers: {
           'content-type': 'application/json',
           'X-RapidAPI-Key': keyDoc.get('key'),
           'X-RapidAPI-Host': 'linkedin-company-data.p.rapidapi.com'
         }); //Example data (should use the company linkedin url in the uri.parse and the correct API key)
     if (response.statusCode == 200) {
-      //print(response.body['results']); // to see what the api returns
       var body = jsonDecode(response.body);
-      print(body);
-      print(body['results']['followerCount']);
-      await asset.update({"followers": body['results']['followerCount']});
+      await asset.update({"followers": (body['results']['followerCount'] ?? 'Could not find follower count')});
       return _linkedinData = response.body;
     } else {
       throw Exception("No data found");
@@ -38,20 +39,26 @@ class LinkedInAssetWidget extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) =>
-      ref.watch(docSP(asset.path)).when(
-          loading: () => Container(),
-          error: (e, s) => ErrorWidget(e),
-          data: (assetDoc) => ListTile(
-                title: Text('LinkedIn - ${assetDoc.data()?["url"]}'),
-                subtitle:
-                    Text("followers: ${assetDoc.data()?['followers'] ?? ''}"),
-                isThreeLine: true,
-                trailing: IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () {
-                    _getLinkedinData();
-                  },
-                ),
-              ));
+  Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
+    loading: () => Container(), 
+    error: (e, s) => ErrorWidget(e), 
+    data: (assetDoc) => Card(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ListTile(
+      title: Text('${AssetType.LinkedIn.name} - ${data(assetDoc, 'id')}'),
+      subtitle: Text("followers: ${data(assetDoc, 'followers')}"),
+      trailing: IconButton(
+        icon: const Icon(Icons.refresh),
+        onPressed: () => _getLinkedinData(data(assetDoc, 'id')),
+      ),
+      ),
+      Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
+            avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
+            label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),
+            onPressed: () => openAssestWebpage(_type, data(assetDoc, 'id'), context),
+            ),
+      ),
+      ]),
+    ) 
+    );
 }

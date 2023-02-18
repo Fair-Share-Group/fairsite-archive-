@@ -1,3 +1,4 @@
+import 'package:fairsite/providers/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,6 +71,41 @@ class MyAppBar {
                   ))),
       actions: [
         ThemeIconButton(),
+        ref
+            .watch(docSP('userInfo/${FirebaseAuth.instance.currentUser?.uid}'))
+            .when(
+                loading: () => Container(),
+                error: (e, s) => ErrorWidget(e),
+                data: (userInfo) => GestureDetector(
+                    key: Key('edit_user_profile'),
+                    onTap: () {
+                      showEditProfileDialog(context, ref);
+                    },
+                    child: Tooltip(
+                        message: 'edit profile',
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 4),
+                            child: Center(
+                                child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundImage: userInfo.exists &&
+                                            !(userInfo.data()?['photoUrl'] ??
+                                                    '')
+                                                .isEmpty
+                                        ? Image.network(
+                                                userInfo.data()!['photoUrl'],
+                                                width: 50,
+                                                height: 50)
+                                            .image
+                                        : (FirebaseAuth.instance.currentUser
+                                                    ?.photoURL ==
+                                                null
+                                            ? Image.asset('').image
+                                            : Image.network(FirebaseAuth
+                                                    .instance
+                                                    .currentUser!
+                                                    .photoURL!)
+                                                .image))))))),
         IconButton(
             onPressed: () {
               ref.read(isLoggedIn.notifier).value = false;
@@ -79,6 +115,65 @@ class MyAppBar {
             icon: Icon(Icons.exit_to_app))
       ],
     );
+  }
+
+  static void showEditProfileDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Edit my profile"),
+              content: SizedBox(
+                  height: 200.0, // Change as per your requirement
+                  width: 400.0, // Change as per your requirement
+                  child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Clipboard.setData(ClipboardData(
+                                      text: FirebaseAuth
+                                          .instance.currentUser?.uid));
+
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text("Copied UID to clipboard"),
+                                  ));
+                                },
+                                child: Text(
+                                    'UID: ${FirebaseAuth.instance.currentUser?.uid}'))),
+                        Expanded(child: Text('photo here')
+                            //ProfilePhotoEditor()
+                            ),
+                        // ...ref
+                        //     .watch(docSP(
+                        //         'userInfo/${FirebaseAuth.instance.currentUser?.uid}'))
+                        //     .when(
+                        //         data: (userDoc) => [
+                        //               Text(userDoc.data()!['email']),
+                        //             ],
+                        //         loading: () => [CircularProgressIndicator()],
+                        //         error: (e, s) => [ErrorWidget(e)])
+                      ])),
+              actions: <Widget>[
+                ElevatedButton(
+                    key: Key('sign_out_btn'),
+                    child: Text("Sign Out"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      FirebaseAuth.instance.signOut();
+                    }),
+                ElevatedButton(
+                  child: Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]);
+        });
   }
 }
 

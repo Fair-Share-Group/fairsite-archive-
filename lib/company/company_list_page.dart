@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fairsite/company/asset/ShareAllocationWidget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,11 +42,24 @@ class CompanyListPage extends ConsumerWidget {
                         children: [
                           Lists(),
                           IconButton(
-                              onPressed: () => {
-                                    FirebaseFirestore.instance
-                                        .collection('company')
-                                        .add({'name': 'New company'})
-                                  },
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('company')
+                                    .add({'name': 'New company'}).then((ref) {
+                                  ref
+                                      .collection('admin')
+                                      .doc(CURRENT_USER.uid)
+                                      .set({
+                                    'timeJoined': FieldValue.serverTimestamp()
+                                  });
+                                  ref
+                                      .collection('member')
+                                      .doc(CURRENT_USER.uid)
+                                      .set({
+                                    'timeJoined': FieldValue.serverTimestamp()
+                                  });
+                                });
+                              },
                               icon: Icon(Icons.add))
                         ],
                       ))),

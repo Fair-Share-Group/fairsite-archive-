@@ -4,11 +4,11 @@ import 'package:fairsite/providers/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TwitterAssetWidget extends ConsumerWidget {
+class DomainAssetWidget extends ConsumerWidget {
   final DocumentReference asset;
-  static const AssetType _type = AssetType.Twitter;
+  static const AssetType _type = AssetType.Domain;
 
-  TwitterAssetWidget(this.asset);
+  DomainAssetWidget(this.asset);
 
  @override
   Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
