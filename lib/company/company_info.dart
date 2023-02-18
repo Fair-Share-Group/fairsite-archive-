@@ -19,54 +19,57 @@ class CompanyInfo extends ConsumerWidget {
       ref.watch(docSP('company/${entityId}')).when(
           loading: () => Container(),
           error: (e, s) => ErrorWidget(e),
-          data: (companyDoc) => Column(children: [
-                Flexible(flex: 1, child: CompanyLogo(entityId)),
-                Flexible(
-                    flex: 1,
-                    child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Flexible(
-                              child: Text(
-                            (companyDoc.data()!['name'] != null)
-                                ? companyDoc.data()!['name']
-                                : 'no name',
-                          )),
-                          Flexible(
-                              child: Text(
-                            (companyDoc.data()!['founded'] != null)
-                                ? timeago.format(
-                                    (companyDoc.data()!['founded'] as Timestamp)
+          data: (companyDoc) => Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(flex: 1, child: CompanyLogo(entityId)),
+                    Flexible(
+                        flex: 1,
+                        child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Flexible(
+                                  child: Text(
+                                (companyDoc.data()!['name'] != null)
+                                    ? companyDoc.data()!['name']
+                                    : 'no name',
+                              )),
+                              Flexible(
+                                  child: Text(
+                                (companyDoc.data()!['founded'] != null)
+                                    ? timeago.format((companyDoc
+                                            .data()!['founded'] as Timestamp)
                                         .toDate())
-                                : 'no founded date',
-                          )),
-                          // Flexible(
-                          //     child: Text('Last updated: ' +
-                          //         Jiffy(entityDoc.data()!['lastUpdateTime'] == null
-                          //                 ? DateTime(0001, 1, 1, 00, 00)
-                          //                 : entityDoc
-                          //                     .data()!['lastUpdateTime']
-                          //                     .toDate())
-                          //             .format())),
-                          // Flexible(
-                          //     child: Text('Last changed: ' +
-                          //         Jiffy(entityDoc.data()!['lastUpdateTime'] == null
-                          //                 ? DateTime(0001, 1, 1, 00, 00)
-                          //                 : entityDoc
-                          //                     .data()!['lastUpdateTime']
-                          //                     .toDate())
-                          //             .format())),
-                        ])),
-                // Added the dialog here for testing
-                // Issue with overflow is making the button unclickable
-                // ISSUE #2
+                                    : 'no founded date',
+                              )),
+                              // Flexible(
+                              //     child: Text('Last updated: ' +
+                              //         Jiffy(entityDoc.data()!['lastUpdateTime'] == null
+                              //                 ? DateTime(0001, 1, 1, 00, 00)
+                              //                 : entityDoc
+                              //                     .data()!['lastUpdateTime']
+                              //                     .toDate())
+                              //             .format())),
+                              // Flexible(
+                              //     child: Text('Last changed: ' +
+                              //         Jiffy(entityDoc.data()!['lastUpdateTime'] == null
+                              //                 ? DateTime(0001, 1, 1, 00, 00)
+                              //                 : entityDoc
+                              //                     .data()!['lastUpdateTime']
+                              //                     .toDate())
+                              //             .format())),
+                            ])),
+                    // Added the dialog here for testing
+                    // Issue with overflow is making the button unclickable
+                    // ISSUE #2
 
-                Flexible(flex: 1, child: AddDigitalAssetsDialog(entityId)),
+                    Flexible(flex: 1, child: AddDigitalAssetsDialog(entityId)),
 
-                Flexible(flex: 5, child: AssetListView(entityId)),
+                    Flexible(flex: 5, child: AssetListView(entityId)),
 
-                // Adding a floating point button to add digital assets for a company
-              ]));
+                    // Adding a floating point button to add digital assets for a company
+                  ]));
 }
