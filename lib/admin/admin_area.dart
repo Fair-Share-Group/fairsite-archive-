@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class AdminArea extends ConsumerWidget {
 
   Widget buildAdminTools(WidgetRef ref) => Column(
         children: [
-          Text('Admin Area'),
+          const Text('Admin Area'),
           buildMembers(ref),
         ],
       );
@@ -30,12 +32,36 @@ class AdminArea extends ConsumerWidget {
   Widget buildMembers(WidgetRef ref) {
     final tec = TextEditingController();
     return Column(children: [
-      Text('members:'),
+      const Text('members:'),
       Column(
           children: ref.watch(colSP('company/${companyId}/member')).when(
               loading: () => [],
               error: (e, s) => [],
-              data: (members) => members.docs.map((e) => Text(e.id)).toList())),
+              data: (members) {
+                var ls = members.docs.map((e) => Text(e.id)).toList();
+                var memberListRemove = List.generate(
+                    ls.length,
+                    (index) => (Padding(
+                        padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ls[index],
+                              TextButton(
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection('company/${companyId}/member')
+                                      .doc(ls[index].data)
+                                      .delete()
+                                      .then((value) {
+                                    print("Deleted " + ls[index].data!);
+                                  }).catchError((err) => print(err));
+                                },
+                                child: const Text("Remove "),
+                              )
+                            ]))));
+                return memberListRemove;
+              })),
       TextField(
         controller: tec,
       ),
@@ -44,7 +70,7 @@ class AdminArea extends ConsumerWidget {
               .collection('company/${companyId}/member')
               .doc(tec.text)
               .set({'timeJoined': FieldValue.serverTimestamp()}),
-          child: Text('Add'))
+          child: const Text('Add')),
     ]);
   }
 }
