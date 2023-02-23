@@ -28,12 +28,12 @@ class CompanyInfo extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Flexible(
-                            child: Image.network(
-                                (companyDoc.data()!['logo'] != null)
-                                    ? companyDoc.data()!['logo']
-                                    : 'no logo'),
-                          ),
+                          // Flexible(
+                          //   child: Image.network(
+                          //       (companyDoc.data()!['logo'] != null)
+                          //           ? companyDoc.data()!['logo']
+                          //           : 'no logo'),
+                          // ), the logo is causing the issue but I dont know why
                           Flexible(
                               child: Text(
                             (companyDoc.data()!['name'] != null)
