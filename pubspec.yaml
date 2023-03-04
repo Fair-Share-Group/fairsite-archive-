@@ -51,6 +51,10 @@ dependencies:
   flutter_firebase_auth:
     git: 
       url: https://github.com/amlcloud/flutter-firebase-auth.git
+  flutter_mobile_first:
+    git: 
+      url: https://github.com/kovarny/flutter_mobile_first.git
+
 
 dev_dependencies:
   flutter_test:
