@@ -1,6 +1,6 @@
+import 'package:flutter_firebase_auth/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:login/login.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,17 +8,13 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        body: LoginScreen(
-      screenTitle: "Log in",
-      loginOptions: {
-        "loginGitHub": true,
-        "loginGoogle": true,
-        "loginEmail": true,
-        "loginSSO": true,
-        "loginAnonymous": true,
-        "signupOption": true,
-      },
-      mainTitle: "AML Cloud",
-    ));
+        body: LoginScreen("Fair Share Group", "Log in", {
+      "loginGitHub": true,
+      "loginGoogle": true,
+      "loginEmail": true,
+      "loginSSO": true,
+      "loginAnonymous": true,
+      "signupOption": true,
+    }));
   }
 }

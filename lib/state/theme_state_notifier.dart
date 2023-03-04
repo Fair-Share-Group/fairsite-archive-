@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fairsite/common.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fairsite/main.dart';
 
 class ThemeStateNotifier extends StateNotifier<bool> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final dbInstance = FirebaseFirestore.instance;
   ThemeStateNotifier(bool loginState) : super(false) {
-    if (loginState == true && AUTH.currentUser != null) {
-      DB
+    if (loginState == true && auth.currentUser != null) {
+      dbInstance
           .collection('user')
-          .doc(AUTH.currentUser!.uid)
+          .doc(auth.currentUser!.uid)
           .get()
           .then((value) {
         String theme = value['themeMode'];
@@ -23,10 +24,10 @@ class ThemeStateNotifier extends StateNotifier<bool> {
   void changeTheme() {
     state = !state;
     String themeMode = state == false ? 'light' : 'dark';
-    if (AUTH.currentUser != null) {
-      DB
+    if (auth.currentUser != null) {
+      dbInstance
           .collection('user')
-          .doc(AUTH.currentUser!.uid)
+          .doc(auth.currentUser!.uid)
           .set({'themeMode': themeMode});
     }
   }

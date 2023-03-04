@@ -48,12 +48,9 @@ dependencies:
   http: ^0.13.4
   url_launcher: ^6.1.7
   timeago: ^3.3.0
-  login:
+  flutter_firebase_auth:
     git: 
-      url: https://github.com/amlcloud/flutter-lib.git
-      path: login
-      ref: main
-
+      url: https://github.com/amlcloud/flutter-firebase-auth.git
 
 dev_dependencies:
   flutter_test:
@@ -90,7 +87,6 @@ flutter:
 
   assets:
     - assets/
-    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

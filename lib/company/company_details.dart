@@ -20,14 +20,17 @@ class CompanyDetails extends ConsumerWidget {
   CompanyDetails(this.entityId, this.selectedItem);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Container(
-      decoration: RoundedCornerContainer.containerStyle,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Flexible(flex: 1, child: CompanyInfo(entityId)),
-            Flexible(child: MemberArea(entityId)), // only one area should be shown at a time
-            Flexible(child: AdminArea(entityId)),
-          ]));
+  Widget build(BuildContext context, WidgetRef ref) => SingleChildScrollView(
+      child: Container(
+          decoration: RoundedCornerContainer.containerStyle,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(flex: 1, child: CompanyInfo(entityId)),
+                Flexible(
+                    child: MemberArea(
+                        entityId)), // only one area should be shown at a time
+                Flexible(child: AdminArea(entityId)),
+              ])));
 }
