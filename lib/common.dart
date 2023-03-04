@@ -7,6 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 final CURRENT_USER = FirebaseAuth.instance.currentUser!;
+final DB = FirebaseFirestore.instance;
+final AUTH = FirebaseAuth.instance;
 
 List<Jiffy> generateWeeks(Jiffy start, Jiffy end) {
   List<Jiffy> list = [];
@@ -66,7 +68,7 @@ openUrl(String url, BuildContext context) async {
   }
 }
 
-openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
+openAssetWebpage(AssetType assetType, String id, BuildContext context) async {
   id = id.trim();
   if (id.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -83,6 +85,7 @@ openAssestWebpage(AssetType assetType, String id, BuildContext context) async {
   }
 }
 
+// Get full form correct url 
 String getAssetUrl(AssetType assetType, String id) {
 switch (assetType) {
     case AssetType.LinkedIn:
@@ -93,8 +96,24 @@ switch (assetType) {
       return "https://www.facebook.com/$id/";
     case AssetType.ABN:
       return "https://abr.business.gov.au/ABN/View?abn=$id/";
-    case AssetType.Domain:
-      return "https://$id";
+    case AssetType.Website:
+      return id;
+  }
+}
+
+// Get url used for displaying
+String getAssetDisplayUrl(AssetType assetType, String id) {
+  switch (assetType) {
+    case AssetType.LinkedIn:
+      return "linkedin.com/company/$id/";
+    case AssetType.Twitter:
+      return "twitter.com/$id/";
+    case AssetType.Facebook:
+      return "facebook.com/$id/";
+    case AssetType.ABN:
+      return "abr.business.gov.au/ABN/View?abn=$id/";
+    case AssetType.Website:
+      return id;
   }
 }
 
@@ -108,9 +127,8 @@ enum AssetType {
   Facebook, 
   Twitter, 
   ABN,
-  Domain
+  Website
 }
 
 const WIDE_SCREEN_WIDTH = 600;
-
 
