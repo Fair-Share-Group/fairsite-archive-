@@ -16,7 +16,7 @@ class ABNAssetWidget extends ConsumerWidget {
 
   static const AssetType _type = AssetType.ABN;
 
-  ABNAssetWidget(this.asset);
+  ABNAssetWidget(this.asset); 
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => ref.watch(docSP(asset.path)).when(
