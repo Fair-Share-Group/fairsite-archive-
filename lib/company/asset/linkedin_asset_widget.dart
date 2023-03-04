@@ -44,14 +44,21 @@ class LinkedInAssetWidget extends ConsumerWidget {
     error: (e, s) => ErrorWidget(e), 
     data: (assetDoc) => Card(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        ListTile(
-      title: Text('${AssetType.LinkedIn.name} - ${data(assetDoc, 'id')}'),
-      subtitle: Text("followers: ${data(assetDoc, 'followers')}"),
-      trailing: IconButton(
-        icon: const Icon(Icons.refresh),
-        onPressed: () => _getLinkedinData(data(assetDoc, 'id')),
-      ),
-      ),
+        Row(mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+          Padding(padding: const EdgeInsets.only(left: 15), child: 
+            SvgPicture.asset('assets/svg/linkedin.svg', width: 36, height: 36,),
+          ),
+          Expanded(child: ListTile(
+          title: Text('${AssetType.LinkedIn.name} - ${data(assetDoc, 'id')}'),
+          subtitle: Text("followers: ${data(assetDoc, 'followers')}"),
+          trailing: IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => _getLinkedinData(data(assetDoc, 'id')),
+          ),)
+          )
+      ])
+        ,
       Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
             avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
             label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),

@@ -93,7 +93,7 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                       "id": _formData["asset_id"]
                                     }).whenComplete(() {
                                       ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text("Assest successfully added"))
+                                        SnackBar(content: Text("Asset successfully added"))
                                         );
                                       Navigator.pop(context);
                                     });
