@@ -59,7 +59,7 @@ class CompanyInfo extends ConsumerWidget {
                   error: (e, s) => ErrorWidget(e),
                   data: (adminSnap) =>
                       adminSnap.data() != null && adminSnap.data()!['exists']
-                          ? AddDigitalAssetsDialog(entityId)
+                          ? NewAssetButtonWidget(entityId)
                           : Text("I am not an admin"),
                 ),
               ),
