@@ -35,7 +35,31 @@ class AdminArea extends ConsumerWidget {
           children: ref.watch(colSP('company/${companyId}/member')).when(
               loading: () => [],
               error: (e, s) => [],
-              data: (members) => members.docs.map((e) => Text(e.id)).toList())),
+              data: (members) {
+                var ls = members.docs.map((e) => Text(e.id)).toList();
+                var memberListRemove = List.generate(
+                    ls.length,
+                    (index) => (Padding(
+                        padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ls[index],
+                              TextButton(
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection('company/${companyId}/member')
+                                      .doc(ls[index].data)
+                                      .delete()
+                                      .then((value) {
+                                    print("Deleted " + ls[index].data!);
+                                  }).catchError((err) => print(err));
+                                },
+                                child: const Text("Remove"),
+                              )
+                            ]))));
+                return memberListRemove;
+              })),
       TextField(
         controller: tec,
       ),
