@@ -3,14 +3,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fairsite/providers/firestore.dart';
 
 class DocFieldTextEdit2 extends ConsumerStatefulWidget {
   final DocumentReference<Map<String, dynamic>> docRef;
   final String field;
   final InputDecoration? decoration;
-
-  final TextEditingController ctrl = TextEditingController();
 
   DocFieldTextEdit2(this.docRef, this.field, {this.decoration, Key? key})
       : super(key: key);
@@ -23,15 +20,16 @@ class DocFieldTextEdit2 extends ConsumerStatefulWidget {
 class DocFieldTextEditState2 extends ConsumerState<DocFieldTextEdit2> {
   Timer? descSaveTimer;
   StreamSubscription? sub;
+  final TextEditingController ctrl = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     sub = widget.docRef.snapshots().listen((event) {
       if (!event.exists) return;
-      print('received ${event.data()![widget.field]}');
-      if (widget.ctrl.text != event.data()![widget.field]) {
-        widget.ctrl.text = event.data()![widget.field];
+      //print('received ${event.data()![widget.field]}');
+      if (ctrl.text != event.data()![widget.field]) {
+        ctrl.text = event.data()![widget.field];
       }
     });
   }
@@ -68,8 +66,7 @@ class DocFieldTextEditState2 extends ConsumerState<DocFieldTextEdit2> {
     //         data: (docSnapshot) {
     return TextField(
       decoration: widget.decoration,
-      controller:
-          widget.ctrl, //..text = docSnapshot.data()![widget.field] ?? '',
+      controller: ctrl, //..text = docSnapshot.data()![widget.field] ?? '',
       // onChanged: (v) {
       //   if (descSaveTimer != null && descSaveTimer!.isActive) {
       //     descSaveTimer!.cancel();

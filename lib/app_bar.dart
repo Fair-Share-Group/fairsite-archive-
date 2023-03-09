@@ -10,6 +10,7 @@ import 'package:fairsite/common.dart';
 class MyAppBar {
   static final List<String> _tabs = [
     'Dashboard',
+    'contracts'
     // 'lists',
     // 'pep admin',
     // 'pep library',
@@ -30,17 +31,15 @@ class MyAppBar {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
-                    Clipboard.setData(ClipboardData(text: CURRENT_USER.uid)).then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("${CURRENT_USER.uid} copied to clipboard"))
-                      );
-                    });
+                  Clipboard.setData(ClipboardData(text: CURRENT_USER.uid))
+                      .then((value) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("${CURRENT_USER.uid} copied to clipboard")));
+                  });
                 },
-                child: Text(
-                  'signed in as: ${CURRENT_USER.uid}'),
-              )
-                  
-            ),
+                child: Text('signed in as: ${CURRENT_USER.uid}'),
+              )),
       title: (MediaQuery.of(context).size.width < WIDE_SCREEN_WIDTH)
           ? null
           : Align(
@@ -100,7 +99,9 @@ class MyAppBar {
                                         : (FirebaseAuth.instance.currentUser
                                                     ?.photoURL ==
                                                 null
-                                            ? Image.asset('assets/svg/facebook.svg').image // placeholder image to remove exeception message from console
+                                            ? Image.asset(
+                                                    'assets/svg/facebook.svg')
+                                                .image // placeholder image to remove exeception message from console
                                             : Image.network(FirebaseAuth
                                                     .instance
                                                     .currentUser!

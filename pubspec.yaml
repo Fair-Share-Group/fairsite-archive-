@@ -51,6 +51,11 @@ dependencies:
   flutter_firebase_auth:
     git: 
       url: https://github.com/amlcloud/flutter-firebase-auth.git
+  sandbox:
+    git: 
+      url: https://github.com/kovarny/sandbox.git
+
+
 
 dev_dependencies:
   flutter_test:
