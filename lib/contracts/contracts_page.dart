@@ -38,7 +38,7 @@ class ContractsPage extends ConsumerWidget {
               error: (e, s) => Text('error: $e')),
           ElevatedButton(
               onPressed: () {
-                kDB.collection('contract').add({'name': 'New contract'});
+                DB.collection('contract').add({'name': 'New contract'});
               },
               child: Text('Add contract'))
         ]));

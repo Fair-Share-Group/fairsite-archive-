@@ -19,6 +19,6 @@ class EditContractWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-        children: [DocFieldTextEdit2(kDB.doc('contract/$docId'), 'text')]);
+        children: [DocFieldTextEdit2(DB.doc('contract/$docId'), 'text')]);
   }
 }
