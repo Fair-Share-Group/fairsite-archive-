@@ -10,6 +10,9 @@ import 'package:http/http.dart' as http;
 
 import '../../providers/firestore.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
+
 class LinkedInAssetWidget extends ConsumerWidget {
   late String _linkedinData;
   final DocumentReference asset;
@@ -20,7 +23,7 @@ class LinkedInAssetWidget extends ConsumerWidget {
   LinkedInAssetWidget(this.asset);
 
   Future<String> _getLinkedinData(String id) async {
-    final keyDoc = await FirebaseFirestore.instance.doc('api/rapidApi').get();
+    final keyDoc = await DB.doc('api/rapidApi').get();
     final response = await http.post(
         Uri.parse(
             'https://linkedin-company-data.p.rapidapi.com/linkedInCompanyDataJsonV3Beta?liUrl=${getAssetUrl(AssetType.LinkedIn, id)}'),
@@ -61,8 +64,8 @@ class LinkedInAssetWidget extends ConsumerWidget {
         ,
       Padding(padding: const EdgeInsets.only(left: 15, bottom: 15), child: ActionChip(
             avatar: const Icon(Icons.open_in_new_rounded, color: Colors.black26, size: 18,),
-            label: Text("${getAssetUrl(_type, data(assetDoc, 'id'))}"),
-            onPressed: () => openAssestWebpage(_type, data(assetDoc, 'id'), context),
+            label: Text("${getAssetDisplayUrl(_type, data(assetDoc, 'id'))}"),
+            onPressed: () => openAssetWebpage(_type, data(assetDoc, 'id'), context),
             ),
       ),
       ]),

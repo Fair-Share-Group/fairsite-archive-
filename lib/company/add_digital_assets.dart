@@ -1,32 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fairsite/common.dart';
+import 'package:fairsite/company/company_list_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'company_info.dart';
 
-class AddDigitalAssetsDialog extends StatefulWidget {
+class AddDigitalAssetsDialog extends ConsumerStatefulWidget {
+  
   @override
-
-  final String entityId;
-
-  AddDigitalAssetsDialog(this.entityId);
-
-  State<StatefulWidget> createState() {
-    return _SelectedValueState(entityId);
+  ConsumerState<AddDigitalAssetsDialog> createState() {
+    return _SelectedValueState();
   }
 }
 
-class _SelectedValueState extends State<AddDigitalAssetsDialog> {
+class _SelectedValueState extends ConsumerState<AddDigitalAssetsDialog> {
   var _currentAssetTitle;
-
-  final String _entityId;
-
-  _SelectedValueState(this._entityId);
 
   var _formData = {"asset_type": "", "asset_id": ""};
 
   @override
   Widget build(BuildContext context) {
+    final _entityId = ref.watch(activeList);
+
     return Container(
         margin: EdgeInsets.all(0),
         child: ElevatedButton(
@@ -78,13 +74,14 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                               ElevatedButton(
                                   onPressed: () {
                                     if (_formData.values.contains('')) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: Text("Fields cannot be empty"))
-                                        );
-                                        return;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Fields cannot be empty")));
+                                      return;
                                     }
 
-                                    FirebaseFirestore.instance
+                                    DB
                                         .collection('company')
                                         .doc(_entityId)
                                         .collection('asset')
@@ -92,12 +89,12 @@ class _SelectedValueState extends State<AddDigitalAssetsDialog> {
                                       "type": _formData["asset_type"],
                                       "id": _formData["asset_id"]
                                     }).whenComplete(() {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text("Asset successfully added"))
-                                        );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Asset successfully added to $_entityId")));
                                       Navigator.pop(context);
                                     });
-                                    
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.green,
