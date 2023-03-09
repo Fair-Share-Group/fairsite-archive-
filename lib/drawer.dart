@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fairsite/dashboard/dashboard_page.dart';
 
+import 'contracts/contracts_page.dart';
+
 class TheDrawer {
   static Widget buildDrawer(BuildContext context) {
     return Drawer(
@@ -16,6 +18,20 @@ class TheDrawer {
             //   )
             // ]),
           )),
+          ListTile(
+              leading: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+              title: const Text('Contracts'),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ContractsPage();
+                  },
+                ));
+              }),
           ListTile(
               leading: IconButton(
                 icon: Icon(Icons.search),
