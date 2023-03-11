@@ -60,7 +60,11 @@ dependencies:
     git: 
       url: https://github.com/kovarny/flutter_firebase_framework.git
       path: providers
-  flutter_svg: ^2.0.3
+  auth:
+    git: 
+      url: https://github.com/kovarny/flutter_firebase_framework.git
+      path: auth
+  flutter_svg: ^1.1.6
 
 
 

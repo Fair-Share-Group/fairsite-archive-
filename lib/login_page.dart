@@ -1,4 +1,4 @@
-import 'package:flutter_firebase_auth/login_screen.dart';
+import 'package:auth/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
