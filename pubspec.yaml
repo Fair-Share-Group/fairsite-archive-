@@ -48,12 +48,23 @@ dependencies:
   http: ^0.13.4
   url_launcher: ^6.1.7
   timeago: ^3.3.0
-  flutter_firebase_auth:
+  common:
     git: 
-      url: https://github.com/amlcloud/flutter-firebase-auth.git
+      url: https://github.com/kovarny/flutter_firebase_framework.git
+      path: common
   sandbox:
     git: 
-      url: https://github.com/kovarny/sandbox.git
+      url: https://github.com/kovarny/flutter_firebase_framework.git
+      path: sandbox
+  providers:
+    git: 
+      url: https://github.com/kovarny/flutter_firebase_framework.git
+      path: providers
+  auth:
+    git: 
+      url: https://github.com/kovarny/flutter_firebase_framework.git
+      path: auth
+  flutter_svg: ^1.1.6
 
 
 
