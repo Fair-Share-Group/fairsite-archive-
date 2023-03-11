@@ -1,4 +1,8 @@
 import 'package:fairsite/company/company_list_page.dart';
+import 'package:fairsite/contracts/contracts_page.dart';
+import 'package:fairsite/contracts/edit_contract_widget.dart';
+import 'package:fairsite/member/contract_widget.dart';
+import 'package:fairsite/providers/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +12,8 @@ import 'package:fairsite/dashboard/dashboard_page.dart';
 import 'package:fairsite/state/generic_state_notifier.dart';
 import 'package:fairsite/state/theme_state_notifier.dart';
 import 'package:fairsite/theme.dart';
+import 'package:sandbox/sandbox_launcher.dart';
+import 'common.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -33,7 +39,20 @@ class MainApp extends ConsumerWidget {
       themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: TheApp(),
+      home: SandboxLauncher(
+        app: TheApp(),
+        sandbox: Scaffold(
+            body: ref.watch(docFP('/contract/YM9LilTYdWY8PVFLVMwO')).when(
+                  data: (data) => EditContractWidget(data),
+                  loading: () => Center(child: CircularProgressIndicator()),
+                  error: (e, s) => Text('Error: $e'),
+                )),
+        getInitialState: () =>
+            DB.doc('sandbox/serge').get().then((doc) => doc.data()!['sandbox']),
+        saveState: (state) => {
+          DB.doc('sandbox/serge').set({'sandbox': state})
+        },
+      ),
     );
   }
 }
@@ -82,7 +101,7 @@ class TheAppState extends ConsumerState<TheApp> {
               ? LoginPage()
               : DefaultTabController(
                   initialIndex: 0,
-                  length: 1,
+                  length: 2,
                   child: Navigator(
                     onGenerateRoute: (RouteSettings settings) {
                       // print('onGenerateRoute: ${settings}');
@@ -91,6 +110,9 @@ class TheAppState extends ConsumerState<TheApp> {
                             pageBuilder: (_, __, ___) =>
                                 //DashboardPage()
                                 CompanyListPage());
+                      } else if (settings.name == 'contracts') {
+                        return PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => ContractsPage());
                       } else {
                         //  else if (settings.name == 'lists') {
                         //   return PageRouteBuilder(

@@ -13,7 +13,7 @@ class ContractPage extends ConsumerWidget {
   final editModeSNP = StateNotifierProvider<GenericStateNotifier<bool>, bool>(
       (ref) => GenericStateNotifier<bool>(false));
 
-  final String docId;
+  final DS docId;
   ContractPage(this.docId, {Key? key}) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class ContractPage extends ConsumerWidget {
             ? TheDrawer.buildDrawer(context)
             : null,
         body: Column(children: [
-          Text('contract'),
+          Text('Contract ${docId}'),
           showContractText(context, ref),
           switchEditMode(context, ref)
         ]));

@@ -30,7 +30,7 @@ class ContractsPage extends ConsumerWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ContractPage(e.id)));
+                                    builder: (context) => ContractPage(e)));
                           },
                           child: Text(e.id)))
                       .toList()),

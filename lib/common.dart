@@ -52,42 +52,41 @@ List<Jiffy> generateDays(Jiffy start, Jiffy end) {
 openUrl(String url, BuildContext context) async {
   url = url.trim();
   if (url.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("No url found for this asset")));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("No url found for this asset")));
     return;
   }
 
   // for launchUrl to work properly, urls need to start with http:// or https://
-  // otherwise it will be treated as a relative link 
+  // otherwise it will be treated as a relative link
   if (!url.startsWith(RegExp(r"https?://"))) {
     url = "https://$url";
   }
   if (!await launchUrl(Uri.parse(url))) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Could not open $url")));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Could not open $url")));
   }
 }
 
 openAssetWebpage(AssetType assetType, String id, BuildContext context) async {
   id = id.trim();
   if (id.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("No id found for this asset")));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("No id found for this asset")));
     return;
   }
 
   var url = getAssetUrl(assetType, id);
-  
 
   if (!await launchUrl(Uri.parse(url))) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Could not open $url")));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Could not open $url")));
   }
 }
 
-// Get full form correct url 
+// Get full form correct url
 String getAssetUrl(AssetType assetType, String id) {
-switch (assetType) {
+  switch (assetType) {
     case AssetType.LinkedIn:
       return "https://www.linkedin.com/company/$id/";
     case AssetType.Twitter:
@@ -118,17 +117,17 @@ String getAssetDisplayUrl(AssetType assetType, String id) {
 }
 
 dynamic data(DocumentSnapshot<Map<String, dynamic>> doc, String field) {
-  return doc.data()?[field] ?? "field \"$field\" was not used when creating this asset";
+  return doc.data()?[field] ??
+      "field \"$field\" was not used when creating this asset";
 }
 
-
-enum AssetType {
-  LinkedIn,
-  Facebook, 
-  Twitter, 
-  ABN,
-  Website
-}
+enum AssetType { LinkedIn, Facebook, Twitter, ABN, Website }
 
 const WIDE_SCREEN_WIDTH = 600;
 
+typedef DS = DocumentSnapshot<Map<String, dynamic>>;
+typedef DR = DocumentReference<Map<String, dynamic>>;
+typedef CR = CollectionReference<Map<String, dynamic>>;
+
+final kDB = FirebaseFirestore.instance;
+final kUSR = FirebaseAuth.instance.currentUser;
